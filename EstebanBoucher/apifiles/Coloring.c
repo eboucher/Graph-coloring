@@ -85,10 +85,10 @@ u32 Greedy(NimheP G) {
     for(i = 1; i < G->no_vertices; i++) {
 
         /* Process all adjacent vertices and flag their colors as unavailable */
-        neighbors_size = G->degree_array[G->order[i]];
+        no_neighbors = G->degree_array[G->order[i]];
 
         for(j = 0; j < no_neighbors; j++) {
-            u32 neighbor_color = G->color_array[G->neighbors_array[G->order[i]].data[j]];
+            neighbor_color = G->color_array[G->neighbors_array[G->order[i]].data[j]];
             if(neighbor_color != 0)
                 G->used_color[neighbor_color] = true;
         }
@@ -127,8 +127,8 @@ void OrdenNatural(NimheP G) {
 
     int CompOrdenNat(const void *elem1, const void *elem2) {
 
-        u32 fst = elem1;
-        u32 snd = elem2;
+        u32 fst = (u32)elem1;
+        u32 snd = (u32)elem2;
         if(G->name_array[fst] > G->name_array[snd]) return 1;
         if(G->name_array[fst] < G->name_array[snd]) return -1;
         return 0;
@@ -140,8 +140,8 @@ void OrdenNatural(NimheP G) {
 void OrdenWelshPowell(NimheP G) {
 
     int CompOrdenWP(const void *elem1, const void *elem2) {
-        u32 fst = elem1;
-        u32 snd = elem2;
+        u32 fst = (u32)elem1;
+        u32 snd = (u32)elem2;
         if(G->degree_array[fst] > G->degree_array[snd]) return 1;
         if(G->degree_array[fst] < G->degree_array[snd]) return -1;
         return 0;
@@ -149,6 +149,18 @@ void OrdenWelshPowell(NimheP G) {
     qsort(G->order, G->no_vertices, sizeof(u32), &CompOrdenWP);
 }
 
+void shuffle(u32 *array, u32 n, u32 seed) {
+    srand(seed);
+    if(n > 1) {
+        u32 i;
+        for(i = 0; i < n-1; i++) {
+          u32 j = i + rand() / (RAND_MAX / (n - i) + 1);
+          u32 t = array[j];
+          array[j] = array[i];
+          array[i] = t;
+        }
+    }
+}
 
 void ReordenAleatorioRestringido(NimheP G) {
 
@@ -163,8 +175,8 @@ void ReordenAleatorioRestringido(NimheP G) {
 
 
     int CompREordenAleatorioRestringido(const void *elem1, const void *elem2) {
-        u32 fst = elem1;
-        u32 snd = elem2;
+        u32 fst = (u32)elem1;
+        u32 snd = (u32)elem2;
         if(G->RAR_order_array[fst] > G->RAR_order_array[snd]) return 1;
         if(G->RAR_order_array[fst] < G->RAR_order_array[snd]) return -1;
         return 0;
@@ -178,8 +190,8 @@ void GrandeChico(NimheP G) {
     int CompOrdenGrandeChico(const void *elem1, const void *elem2) {
 
         int result = 0;
-        u32 fst = elem1;
-        u32 snd = elem2;
+        u32 fst = (u32)elem1;
+        u32 snd = (u32)elem2;
 
         u32 no_colors_fst = G->vertices_with_color[G->color_array[fst]];
         u32 no_colors_snd = G->vertices_with_color[G->color_array[snd]];
@@ -207,8 +219,8 @@ void ChicoGrande(NimheP G) {
     int CompOrdenChicoGrande(const void *elem1, const void *elem2) {
 
         int result = 0;
-        u32 fst = elem1;
-        u32 snd = elem2;
+        u32 fst = (u32)elem1;
+        u32 snd = (u32)elem2;
 
         u32 no_colors_fst = G->vertices_with_color[G->color_array[fst]];
         u32 no_colors_snd = G->vertices_with_color[G->color_array[snd]];
@@ -233,8 +245,8 @@ void ChicoGrande(NimheP G) {
 void Revierte(NimheP G) {
 
     int CompOrdenRevierte(const void *elem1, const void *elem2) {
-        u32 fst = elem1;
-        u32 snd = elem2;
+        u32 fst = (u32)elem1;
+        u32 snd = (u32)elem2;
         if(G->color_array[fst] > G->color_array[snd]) return 1;
         if(G->color_array[fst] < G->color_array[snd]) return -1;
         return 0;
@@ -257,12 +269,12 @@ bool meets_condition(NimheP G, u32* x) {
         else
             used[x[i]] = true;
     }
-    return true
+    return true;
 }
 
 void OrdenEspecifico(NimheP G, u32* x) {
 
-    if(meets_condition(x))
+    if(meets_condition(G, x))
         for(u32 i = 0; i < G->no_vertices; i++)
             G->order[i] = G->natural_order[x[i]];
 }

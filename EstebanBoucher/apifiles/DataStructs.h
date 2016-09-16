@@ -29,28 +29,28 @@ typedef struct _VectorSt_t {
     u32 *elements;      /* array of elements */
 } Queue;
 
-void vector_init(Vector *vector);
+void vector_init(Vector vector);
 /*
  * Initializes a vector struct. It sets size to 0, capacity to
  * VECTOR_INITIAL_CAPACITY and allocates an appropriate amount of memory
  * (vector->capacity * sizeof(VerticeSt)) for the underlying data array.
  */
  
-void vector_append(Vector *vector, u32 value);
+void vector_append(Vector vector, u32 value);
 /*
  * Appends the given value to the vector. If the underlying data array is full,
  * then calling this function should cause vector->data to expand to accept
  * this value. Increments vector->size.
  */
 
-VerticeSt* vector_get(Vector vector, u32 index);
+u32 vector_get(Vector vector, u32 index);
 /*
  * Returns a value out of a vector at the given index. If the index is below 0
  * or greater than vector->size - 1, this function should complain about the 
  * index being out of bounds.
  */
 
-void vector_free(Vector *vector);
+void vector_free(Vector vector);
 /*
  * Frees the memory allocated for the data array. We leave freeing of the
  * Vector struct itself to client code (so it can use any sort of pointer,
@@ -65,8 +65,8 @@ u32 Queue_front(Queue Q);
 
 void Enqueue(Queue Q, u32 element);
 
-bool Queue_is_empty(Queue *Q);
+bool Queue_is_empty(Queue Q);
 
-void Queue_free(Queue *Q);
+void Queue_free(Queue Q);
 
 #endif

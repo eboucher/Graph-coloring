@@ -23,7 +23,7 @@ void vector_append(Vector vector, u32 value) {
     vector.data = realloc(vector.data, vector.capacity * sizeof(u32));
     }
     /* append the value and increment vector->size */
-    vector.data[vector->size++] = value;
+    vector.data[vector.size++] = value;
 }
 
 u32 vector_get(Vector vector, u32 index) {
@@ -44,7 +44,6 @@ void vector_free(Vector vector) {
 Queue Queue_init(u32 max_elements) {
 
     Queue Q;
-    Q = malloc(sizeof(Queue));
 
     /* Initialize its properties */
     Q.elements = malloc((max_elements) * sizeof(u32));
@@ -75,10 +74,10 @@ void Enqueue(Queue Q, u32 element) {
     Q.rear = (Q.rear + 1) % Q.capacity;
 }
 
-bool Queue_is_empty(Queue *Q) {
+bool Queue_is_empty(Queue Q) {
     return (Q.front == Q.rear ? true : false);
 }
 
-void Queue_free(Queue *Q) {
+void Queue_free(Queue Q) {
     free(Q.elements);
 }

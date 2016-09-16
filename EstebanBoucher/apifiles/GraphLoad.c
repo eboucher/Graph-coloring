@@ -41,7 +41,7 @@ u32 find_vertex_hash(NimheP G, u32 vertex, bool *vertex_loaded) {
         G->order[hash_index] = hash_index;
         G->natural_order[hash_index] = hash_index;
         vertex_loaded[hash_index] = true;
-        vector_init(&G->neighbors_array[hash_index]);
+        vector_init(G->neighbors_array[hash_index]);
     }
 
     return hash_index;
@@ -58,12 +58,12 @@ void insert_edge(NimheP G, u32 fst_vertex, u32 snd_vertex, bool *vertex_loaded) 
     /* Now, add each other as neighbors */
 
     /* Second vertex as new neighbor in first vertex list's of neighbors */
-    vector_append(&G->neighbors_array[fst_index], snd_index);
+    vector_append(G->neighbors_array[fst_index], snd_index);
 
     ++G->degree_array[fst_index];
 
     /* Second vertex as new neighbor in first vertex list's of neighbors */
-    vector_append(&G->neighbors_array[snd_index], fst_index);
+    vector_append(G->neighbors_array[snd_index], fst_index);
 
     ++G->degree_array[snd_index];
 

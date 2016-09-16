@@ -73,14 +73,15 @@ NimheP NuevoNimhe(void) {
             /* Allocate memory for the array to store number of vertices colored with each color */
             new_nimhe->vertices_with_color = malloc((new_nimhe->no_vertices + 1) * sizeof(u32));
 
-            /* Array of bools to check during graph load if there is a vertex in the given position */
-            bool *vertex_loaded;
-            vertex_loaded = calloc(new_nimhe->no_vertices, sizeof(bool));
         }
     } else {
         perror("Line indicating number of vertices and edges not found.\n");
         exit(EXIT_FAILURE);
     }
+
+    /* Array of bools to check during graph load if there is a vertex in the given position */
+    bool *vertex_loaded;
+    vertex_loaded = calloc(new_nimhe->no_vertices, sizeof(bool));
 
     /* Variable used to check if the following lines are exactly new_nimhe->edges */
     u32 lines_counter = new_nimhe->no_edges;
@@ -115,14 +116,14 @@ NimheP NuevoNimhe(void) {
 
     int OrdenNat(const void *elem1, const void *elem2) {
 
-        u32 fst = elem1;
-        u32 snd = elem2;
-        if(G->name_array[fst] > G->name_array[snd]) return 1;
-        if(G->name_array[fst] < G->name_array[snd]) return -1;
+        u32 fst = (u32)elem1;
+        u32 snd = (u32)elem2;
+        if(new_nimhe->name_array[fst] > new_nimhe->name_array[snd]) return 1;
+        if(new_nimhe->name_array[fst] < new_nimhe->name_array[snd]) return -1;
         return 0;
     }
 
-    qsort(G->natural_order, G->no_vertices, sizeof(u32), &OrdenNat);
+    qsort(new_nimhe->natural_order, new_nimhe->no_vertices, sizeof(u32), &OrdenNat);
 
     return new_nimhe;
 }
@@ -144,7 +145,7 @@ int DestruirNimhe(NimheP G) {
         G->RAR_order_array = NULL;
 
         for(u32 i = 0; i < G->no_vertices; i++)
-            vector_free(&G->neighbors_array[i]);
+            vector_free(G->neighbors_array[i]);
 
         free(G->order);
         G->order = NULL;
