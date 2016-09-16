@@ -1,0 +1,11 @@
+c WARNING: This graph causes an error, as number
+c   of vertices received in p line are different
+c   to those received in the rest of the line.
+c   (case not looked at while loading the graph)
+p edge 4 6
+e 0 1
+e 0 2
+e 1 2
+e 1 4
+e 2 4
+e 4 3
