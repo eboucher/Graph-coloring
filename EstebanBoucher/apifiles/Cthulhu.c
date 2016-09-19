@@ -23,8 +23,8 @@ NimheP NuevoNimhe(void) {
         exit(EXIT_FAILURE);
     }
 
-    NimheP new_nimhe = NULL;                            /* Create a new graph called new_nimhe */
-    new_nimhe = calloc(1, sizeof(struct _NimheSt_t));   /* Allocate memory for new_nimhe */
+    NimheP G = NULL;                            /* Create a new graph called G */
+    G = calloc(1, sizeof(struct _NimheSt_t));   /* Allocate memory for G */
 
     /* Variables that will be used to check that the file format is correct */
     //const char whitespace[] = " ";
@@ -46,36 +46,36 @@ NimheP NuevoNimhe(void) {
         u32 no_vertices, no_edges;
         sscanf(line_ptr, "%c %s %u %u", &p_letter, edge_word, &no_vertices, &no_edges);
         
-        new_nimhe->no_vertices = no_vertices;
-        new_nimhe->no_edges = no_edges;
+        G->no_vertices = no_vertices;
+        G->no_edges = no_edges;
 
         if(strcmp(edge_word, "edge")) {
             perror("Wrong format in line indicating number of vertices and edges.\n");
             exit(EXIT_FAILURE);
         } else {
             /* Allocate enough memory for the array of vertices real names */
-            new_nimhe->name_array = malloc(new_nimhe->no_vertices * sizeof(u32));
+            G->name_array = calloc(G->no_vertices, sizeof(u32));
 
             /* Allocate enough memory for the array of colors of vertices */
-            new_nimhe->color_array = malloc(new_nimhe->no_vertices * sizeof(u32));
+            G->color_array = calloc(G->no_vertices, sizeof(u32));
 
             /* Allocate enough memory for the array of degrees of vertices */
-            new_nimhe->degree_array = malloc(new_nimhe->no_vertices * sizeof(u32));
+            G->degree_array = calloc(G->no_vertices, sizeof(u32));
 
             /* Allocate enough memory for the array of RAR order of vertices */
-            new_nimhe->RAR_order_array = malloc(new_nimhe->no_vertices * sizeof(u32));
+            G->RAR_order_array = calloc(G->no_vertices, sizeof(u32));
 
             /* Allocate enough memory to store all lists of vertex neighbors */
-            new_nimhe->neighbors_array = malloc(new_nimhe->no_vertices * sizeof(Vector));
+            G->neighbors_array = calloc(G->no_vertices, sizeof(Vector));
 
             /* Allocate enough memory to store current order */
-            new_nimhe->order = malloc(new_nimhe->no_vertices * sizeof(u32));
+            G->order = calloc(G->no_vertices, sizeof(u32));
 
             /* Allocate enough memory to store natural order */
-            new_nimhe->natural_order = malloc(new_nimhe->no_vertices * sizeof(u32));
+            G->natural_order = calloc(G->no_vertices, sizeof(u32));
 
             /* Allocate memory for the array to store number of vertices colored with each color */
-            new_nimhe->vertices_with_color = malloc((new_nimhe->no_vertices + 1) * sizeof(u32));
+            G->vertices_with_color = calloc((G->no_vertices + 1), sizeof(u32));
 
         }
     } else {
@@ -85,23 +85,23 @@ NimheP NuevoNimhe(void) {
 
     /* Array of bools to check during graph load if there is a vertex in the given position */
     bool *vertex_loaded;
-    vertex_loaded = calloc(new_nimhe->no_vertices, sizeof(bool));
+    vertex_loaded = calloc(G->no_vertices, sizeof(bool));
 
-    /* Variable used to check if the following lines are exactly new_nimhe->edges */
-    u32 lines_counter = new_nimhe->no_edges;
+    /* Variable used to check if the following lines are exactly G->edges */
+    u32 lines_counter = G->no_edges;
 
     /* Get another line */
     line_ptr = fgets(line, sizeof(line), stdin);
 
     while(line_ptr && lines_counter) {
-        /* there is an edge in this line to load to new_nimhe */
+        /* there is an edge in this line to load to G */
 
         if(!strncmp(line_ptr, "e ", 2)) {
 
             /* Scan line parameters into different tokens */
             sscanf(line_ptr, "%c %u %u", &e_letter, &fst_vertex, &snd_vertex);
 
-            insert_edge(new_nimhe, fst_vertex, snd_vertex, vertex_loaded);
+            insert_edge(G, fst_vertex, snd_vertex, vertex_loaded);
 
         } else {
             perror("Wrong format in edge line.\n");
@@ -116,20 +116,20 @@ NimheP NuevoNimhe(void) {
     vertex_loaded = NULL;
     
     /* Allocate memory for the array of used colors to be used in Greedy coloring function */
-    new_nimhe->used_color = malloc((new_nimhe->no_vertices + 1) * sizeof(bool));
+    G->used_color = malloc((G->no_vertices + 1) * sizeof(bool));
 
     int OrdenNat(const void *elem1, const void *elem2) {
 
         u32 *fst = (u32*)elem1;
         u32 *snd = (u32*)elem2;
-        if(new_nimhe->name_array[*fst] > new_nimhe->name_array[*snd]) return 1;
-        if(new_nimhe->name_array[*fst] < new_nimhe->name_array[*snd]) return -1;
+        if(G->name_array[*fst] > G->name_array[*snd]) return 1;
+        if(G->name_array[*fst] < G->name_array[*snd]) return -1;
         return 0;
     }
 
-    qsort(new_nimhe->natural_order, new_nimhe->no_vertices, sizeof(u32), &OrdenNat);
+    qsort(G->natural_order, G->no_vertices, sizeof(u32), &OrdenNat);
 
-    return new_nimhe;
+    return G;
 }
 
 int DestruirNimhe(NimheP G) {
@@ -151,8 +151,14 @@ int DestruirNimhe(NimheP G) {
         for(u32 i = 0; i < G->no_vertices; i++)
             vector_free(&G->neighbors_array[i]);
 
+        free(G->neighbors_array);
+        G->neighbors_array = NULL;
+
         free(G->order);
         G->order = NULL;
+
+        free(G->natural_order);
+        G->natural_order = NULL;
 
         free(G->vertices_with_color);
         G->vertices_with_color = NULL;

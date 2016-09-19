@@ -58,7 +58,7 @@ int main() {
     /* Check Bipartite */
     if (Chidos(graph)) {
         printf("Grafo Bipartito\n");
-        return EXIT_SUCCESS;
+        return (DestruirNimhe(graph) == 1 ? 0 : 1);
     } else {
         printf("Grafo NO Bipartito\n");
     }
@@ -98,7 +98,7 @@ int main() {
 
     if((WP_coloring == 3) || (best_coloring == 3)) {
         printf("X(G) = 3\n");
-        return EXIT_SUCCESS;
+        return (DestruirNimhe(graph) == 1 ? 0 : 1);
     }
 
     if(best_coloring < WP_coloring) {
@@ -153,7 +153,5 @@ int main() {
     free(specific_order);
     specific_order = NULL;
 
-    int x = DestruirNimhe(graph);
-    if(x == 1) return 0;
-    else return x; 
+    return (DestruirNimhe(graph) == 1 ? 0 : 1);
 }

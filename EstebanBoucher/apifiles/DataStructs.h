@@ -9,7 +9,7 @@
 
 #include "Types.h"
 
-#define VECTOR_INITIAL_CAPACITY 8
+// #define VECTOR_INITIAL_CAPACITY 8   // EITHER NEEDS TO BE MOVED TO GRAPH_LOAD OR TO BE REMOVED !!
 #define VECTOR_GROWTH_RATE 8
 
 typedef struct _VerticeSt_t VerticeSt; /* Forward declaration of VerticeSt */
@@ -31,34 +31,34 @@ typedef struct _VectorSt_t {
     u32 *elements;      /* array of elements */
 } Queue;
 
-void vector_init(Vector *vector);
+void vector_init(Vector *V);
 /*
  * Initializes a vector struct. It sets size to 0, capacity to
  * VECTOR_INITIAL_CAPACITY and allocates an appropriate amount of memory
  * (vector->capacity * sizeof(VerticeSt)) for the underlying data array.
  */
  
-void vector_append(Vector *vector, u32 value);
+void vector_append(Vector *V, u32 value);
 /*
  * Appends the given value to the vector. If the underlying data array is full,
  * then calling this function should cause vector->data to expand to accept
  * this value. Increments vector->size.
  */
 
-u32 vector_get(Vector *vector, u32 index);
+u32 vector_get(Vector *V, u32 index);
 /*
  * Returns a value out of a vector at the given index. If the index is below 0
  * or greater than vector->size - 1, this function should complain about the 
  * index being out of bounds.
  */
 
-void vector_free(Vector *vector);
+void vector_free(Vector *V);
 /*
  * Frees the memory allocated for the data array. We leave freeing of the
  * Vector struct itself to client code.
  */
 
-Queue* Queue_init(u32 maxElements);
+Queue* Queue_init(u32 max_elems);
 /*
  * Initializes a Queue struct. It sets both front and rear to 0, hence its
  * size is equal to 0, and allocates an appropriate amount of memory

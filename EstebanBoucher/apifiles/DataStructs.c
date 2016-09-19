@@ -6,36 +6,36 @@
 
 #include "DataStructs.h"
 
-void vector_init(Vector *vector) {
+void vector_init(Vector *V) {
     /* initialize size and capacity */
-    vector->size = 0;
-    vector->capacity = VECTOR_INITIAL_CAPACITY;
+    V->size = 0;
+    V->capacity = VECTOR_INITIAL_CAPACITY;
 
-    /* allocate memory for vector.data */
-    vector->data = malloc(vector->capacity * sizeof(u32));
+    /* allocate memory for V.data */
+    V->data = malloc(V->capacity * sizeof(u32));
 }
 
-void vector_append(Vector *vector, u32 value) {
+void vector_append(Vector *V, u32 value) {
     /* make sure there's room to expand into */
-    if (vector->size >= vector->capacity) {
-    /* double vector.capacity and resize the allocated memory accordingly */
-    vector->capacity += VECTOR_GROWTH_RATE;
-    vector->data = realloc(vector->data, vector->capacity * sizeof(u32));
+    if (V->size >= V->capacity) {
+    /* double V.capacity and resize the allocated memory accordingly */
+    V->capacity += VECTOR_GROWTH_RATE;
+    V->data = realloc(V->data, V->capacity * sizeof(u32));
     }
-    /* append the value and increment vector->size */
-    vector->data[vector->size++] = value;
+    /* append the value and increment V->size */
+    V->data[V->size++] = value;
 }
 
-u32 vector_get(Vector *vector, u32 index) {
-    if (index >= vector->size) {
-        printf("Index %d out of bounds for vector of size %d\n", index, vector->size);
+u32 vector_get(Vector *V, u32 index) {
+    if (index >= V->size) {
+        printf("Index %d out of bounds for vector of size %d\n", index, V->size);
         exit(EXIT_FAILURE);
     }
-    return vector->data[index];
+    return V->data[index];
 }
 
-void vector_free(Vector *vector) {
-    free(vector->data);
+void vector_free(Vector *V) {
+    free(V->data);
 }
 
 /* Crate_queue function takes argument the maximum number of elements the Queue can hold, creates
@@ -81,4 +81,6 @@ bool Queue_is_empty(Queue *Q) {
 
 void Queue_free(Queue *Q) {
     free(Q->elements);
+    free(Q);
+    Q = NULL;
 }

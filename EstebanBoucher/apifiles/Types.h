@@ -16,4 +16,6 @@
 
 typedef uint32_t u32;
 
+#define VECTOR_INITIAL_CAPACITY 8
+
 #endif
