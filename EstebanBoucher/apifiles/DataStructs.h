@@ -22,6 +22,8 @@ typedef struct _VectorSt_t {
     u32 *data;          /* array of indices of neighbor vertices in vertices array */
 } Vector;
 
+/* Define a queue type */
+
  typedef struct _QueueSt_t {
     u32 capacity;     	/* total available slots */
     u32 front;			/* index of first element */
@@ -29,61 +31,61 @@ typedef struct _VectorSt_t {
     u32 *elements;      /* array of elements */
 } Queue;
 
-void vector_init(Vector vector);
+void vector_init(Vector *vector);
 /*
  * Initializes a vector struct. It sets size to 0, capacity to
  * VECTOR_INITIAL_CAPACITY and allocates an appropriate amount of memory
  * (vector->capacity * sizeof(VerticeSt)) for the underlying data array.
  */
  
-void vector_append(Vector vector, u32 value);
+void vector_append(Vector *vector, u32 value);
 /*
  * Appends the given value to the vector. If the underlying data array is full,
  * then calling this function should cause vector->data to expand to accept
  * this value. Increments vector->size.
  */
 
-u32 vector_get(Vector vector, u32 index);
+u32 vector_get(Vector *vector, u32 index);
 /*
  * Returns a value out of a vector at the given index. If the index is below 0
  * or greater than vector->size - 1, this function should complain about the 
  * index being out of bounds.
  */
 
-void vector_free(Vector vector);
+void vector_free(Vector *vector);
 /*
  * Frees the memory allocated for the data array. We leave freeing of the
  * Vector struct itself to client code.
  */
 
-Queue Queue_init(u32 maxElements);
+Queue* Queue_init(u32 maxElements);
 /*
  * Initializes a Queue struct. It sets both front and rear to 0, hence its
  * size is equal to 0, and allocates an appropriate amount of memory
  * ((max_elements) * sizeof(u32)) for the underlying circular array.
  */
 
-void Dequeue(Queue Q);
+void Dequeue(Queue *Q);
 /*
  * Remove front element from Queue Q.
  */
 
-u32 Queue_front(Queue Q);
+u32 Queue_front(Queue *Q);
 /*
  * Return the element which is at the front.
  */
 
-void Enqueue(Queue Q, u32 element);
+void Enqueue(Queue *Q, u32 element);
 /*
  * Insert element in rear side of Queue Q.
  */
 
-bool Queue_is_empty(Queue Q);
+bool Queue_is_empty(Queue *Q);
 /*
  * Returns true if Queue Q is empty and false if there are elements on it.
  */
 
-void Queue_free(Queue Q);
+void Queue_free(Queue *Q);
 /*
  * Frees the memory allocated for the elements array. Leaves freeing of the
  * Vector struct itself to client code.

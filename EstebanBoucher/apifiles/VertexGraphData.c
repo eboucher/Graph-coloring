@@ -94,7 +94,7 @@ VerticeSt IesimoVecino(NimheP G, VerticeSt x, u32 i) {
 
     VerticeSt ith_neighbor;
 
-    u32 ith_index = vector_get(G->neighbors_array[x.index], i);
+    u32 ith_index = vector_get(&G->neighbors_array[x.index], i);
 
     ith_neighbor.name = G->name_array[G->order[ith_index]];
     ith_neighbor.degree = G->degree_array[G->order[ith_index]];

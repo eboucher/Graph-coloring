@@ -120,10 +120,10 @@ NimheP NuevoNimhe(void) {
 
     int OrdenNat(const void *elem1, const void *elem2) {
 
-        u32 fst = (u32)elem1;
-        u32 snd = (u32)elem2;
-        if(new_nimhe->name_array[fst] > new_nimhe->name_array[snd]) return 1;
-        if(new_nimhe->name_array[fst] < new_nimhe->name_array[snd]) return -1;
+        u32 *fst = (u32*)elem1;
+        u32 *snd = (u32*)elem2;
+        if(new_nimhe->name_array[*fst] > new_nimhe->name_array[*snd]) return 1;
+        if(new_nimhe->name_array[*fst] < new_nimhe->name_array[*snd]) return -1;
         return 0;
     }
 
@@ -149,7 +149,7 @@ int DestruirNimhe(NimheP G) {
         G->RAR_order_array = NULL;
 
         for(u32 i = 0; i < G->no_vertices; i++)
-            vector_free(G->neighbors_array[i]);
+            vector_free(&G->neighbors_array[i]);
 
         free(G->order);
         G->order = NULL;

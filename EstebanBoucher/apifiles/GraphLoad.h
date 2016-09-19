@@ -15,7 +15,7 @@ typedef struct _VectorSt_t Vector;       /* Forward declaration of Vector */
 
 u32 hash_code(u32 key, u32 size);
 /*
- * Define a hashing method to compute the hash code of the key of the data item.
+ * Define a hashing method to compute the hash code for the key of the data item.
  */
 
 u32 find_vertex_hash(NimheP G, u32 vertex, bool *vertex_loaded);
