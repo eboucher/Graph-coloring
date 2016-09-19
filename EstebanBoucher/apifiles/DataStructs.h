@@ -53,20 +53,40 @@ u32 vector_get(Vector vector, u32 index);
 void vector_free(Vector vector);
 /*
  * Frees the memory allocated for the data array. We leave freeing of the
- * Vector struct itself to client code (so it can use any sort of pointer,
- * be it stack or heap, and then clean up after themselves).
+ * Vector struct itself to client code.
  */
 
 Queue Queue_init(u32 maxElements);
+/*
+ * Initializes a Queue struct. It sets both front and rear to 0, hence its
+ * size is equal to 0, and allocates an appropriate amount of memory
+ * ((max_elements) * sizeof(u32)) for the underlying circular array.
+ */
 
 void Dequeue(Queue Q);
+/*
+ * Remove front element from Queue Q.
+ */
 
 u32 Queue_front(Queue Q);
+/*
+ * Return the element which is at the front.
+ */
 
 void Enqueue(Queue Q, u32 element);
+/*
+ * Insert element in rear side of Queue Q.
+ */
 
 bool Queue_is_empty(Queue Q);
+/*
+ * Returns true if Queue Q is empty and false if there are elements on it.
+ */
 
 void Queue_free(Queue Q);
+/*
+ * Frees the memory allocated for the elements array. Leaves freeing of the
+ * Vector struct itself to client code.
+ */
 
 #endif
