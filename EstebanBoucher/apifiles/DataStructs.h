@@ -19,7 +19,7 @@ typedef struct _VerticeSt_t VerticeSt; /* Forward declaration of VerticeSt */
 typedef struct _VectorSt_t {
     u32 capacity;     	/* total available slots */
     u32 size;         	/* slots used so far */
-    u32 *data;         /* array of indices of neighbor vertices in vertices array */
+    u32 *data;          /* array of indices of neighbor vertices in vertices array */
 } Vector;
 
  typedef struct _QueueSt_t {

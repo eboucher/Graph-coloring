@@ -43,7 +43,11 @@ NimheP NuevoNimhe(void) {
     if(!strncmp(line_ptr, "p ", 2)) {
         /* case 'p ' detected, number of vertices and edges are expected to follow */
 
-        sscanf(line_ptr, "%c %s %u %u", &p_letter, edge_word, &new_nimhe->no_vertices, &new_nimhe->no_edges);
+        u32 no_vertices, no_edges;
+        sscanf(line_ptr, "%c %s %u %u", &p_letter, edge_word, &no_vertices, &no_edges);
+        
+        new_nimhe->no_vertices = no_vertices;
+        new_nimhe->no_edges = no_edges;
 
         if(strcmp(edge_word, "edge")) {
             perror("Wrong format in line indicating number of vertices and edges.\n");
