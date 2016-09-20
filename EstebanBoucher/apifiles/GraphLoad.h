@@ -9,10 +9,6 @@
 
 #include "Types.h"
 
-typedef struct _VerticeSt_t VerticeSt;   /* Forward declaration of VerticeSt */
-typedef struct _NimheSt_t *NimheP;       /* Forward declaration of *NimheP */
-typedef struct _VectorSt_t Vector;       /* Forward declaration of Vector */
-
 u32 hash_code(u32 key, u32 size);
 /*
  * Define a hashing method to compute the hash code for the key of the data item.
