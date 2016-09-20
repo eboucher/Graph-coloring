@@ -71,8 +71,8 @@ void OrdenEspecifico(NimheP G, u32* x);
  * La imagen de x deben ser todos los numeros entre 0 y n − 1, sin repetir.
  * La función primero chequea que x cumpla esa condición. Si no lo hace, la
  * función deja el orden de G como estaba. Si x cumple la condición, entonces
- * la funci´on ordena los vertices con OrdenNatural(), luego lee el orden dado
- * en la string x y los ordena de acuerdo a lo que lee. Es decir, si luego de
+ * la función ordena los vertices con OrdenNatural(), luego lee el orden dado
+ * en el string x y los ordena de acuerdo a lo que lee. Es decir, si luego de
  * OrdenNatural los vertices quedaron ordenados como, por ejemplo, V[0],V[1],
  * ...,V[n-1], luego de OrdenEspecifico el orden debe ser V[x[0]],V[x[1]],...,
  * V[x[n-1]].

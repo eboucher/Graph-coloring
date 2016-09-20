@@ -19,7 +19,7 @@ NimheP NuevoNimhe(void) {
     if(line_ptr == NULL) {
         /* If this is the case, no data has been found in the file,
            therefore the program must be ended with an error message. */
-        perror("Invalid file.\n");
+        perror("Error en formato de entrada\n");
         exit(EXIT_FAILURE);
     }
 
@@ -50,7 +50,7 @@ NimheP NuevoNimhe(void) {
         G->no_edges = no_edges;
 
         if(strcmp(edge_word, "edge")) {
-            perror("Wrong format in line indicating number of vertices and edges.\n");
+            perror("Error en formato de entrada\n");
             exit(EXIT_FAILURE);
         } else {
             /* Allocate enough memory for the array of vertices real names */
@@ -79,13 +79,13 @@ NimheP NuevoNimhe(void) {
 
         }
     } else {
-        perror("Line indicating number of vertices and edges not found.\n");
+        perror("Error en formato de entrada\n");
         exit(EXIT_FAILURE);
     }
 
     /* Array of bools to check during graph load if there is a vertex in the given position */
-    bool *vertex_loaded;
-    vertex_loaded = calloc(G->no_vertices, sizeof(bool));
+    bool *v_loaded;
+    v_loaded = calloc(G->no_vertices, sizeof(bool));
 
     /* Variable used to check if the following lines are exactly G->edges */
     u32 lines_counter = G->no_edges;
@@ -101,10 +101,10 @@ NimheP NuevoNimhe(void) {
             /* Scan line parameters into different tokens */
             sscanf(line_ptr, "%c %u %u", &e_letter, &fst_vertex, &snd_vertex);
 
-            insert_edge(G, fst_vertex, snd_vertex, vertex_loaded);
+            insert_edge(G, fst_vertex, snd_vertex, v_loaded);
 
         } else {
-            perror("Wrong format in edge line.\n");
+            perror("Error en formato de entrada\n");
             exit(EXIT_FAILURE);
         }
         --lines_counter;
@@ -112,11 +112,11 @@ NimheP NuevoNimhe(void) {
     }
 
     /* Free temporary array used during load */
-    free(vertex_loaded);
-    vertex_loaded = NULL;
+    free(v_loaded);
+    v_loaded = NULL;
     
     /* Allocate memory for the array of used colors to be used in Greedy coloring function */
-    G->used_color = malloc((G->no_vertices + 1) * sizeof(bool));
+    G->used = malloc((G->no_vertices + 1) * sizeof(bool));
 
     int OrdenNat(const void *elem1, const void *elem2) {
 
@@ -163,8 +163,8 @@ int DestruirNimhe(NimheP G) {
         free(G->vertices_with_color);
         G->vertices_with_color = NULL;
 
-        free(G->used_color);
-        G->used_color = NULL;
+        free(G->used);
+        G->used = NULL;
 
         free(G);
         G = NULL;

@@ -70,7 +70,7 @@ int Chidos(NimheP G) {
 
 u32 Greedy(NimheP G) {
 
-    memset(G->used_color, false, (G->no_vertices + 1) * sizeof(bool));
+    memset(G->used, false, (G->no_vertices + 1) * sizeof(bool));
     memset(G->vertices_with_color, 0, (G->no_vertices + 1) * sizeof(u32));
     memset(G->color_array, 0, (G->no_vertices) * sizeof(u32));
 
@@ -90,12 +90,12 @@ u32 Greedy(NimheP G) {
         for(j = 0; j < no_neighbors; j++) {
             neighbor_color = G->color_array[G->neighbors_array[G->order[i]].data[j]];
             if(neighbor_color != 0)
-                G->used_color[neighbor_color] = true;
+                G->used[neighbor_color] = true;
         }
 
         /* Find first available color */
         for(j = 1; j <= G->no_vertices; j++)
-            if(!G->used_color[j])
+            if(!G->used[j])
                 break;
 
         /* Assign the found color */
@@ -111,7 +111,7 @@ u32 Greedy(NimheP G) {
         for(j = 0; j < no_neighbors; j++) {
             u32 neighbor_color = G->color_array[G->neighbors_array[G->order[i]].data[j]];
             if(neighbor_color != 0)
-                G->used_color[neighbor_color] = false;
+                G->used[neighbor_color] = false;
         }
     }
 
@@ -183,6 +183,9 @@ void ReordenAleatorioRestringido(NimheP G) {
     }
 
     qsort(G->order, G->no_vertices, sizeof(u32), &CompREordenAleatorioRestringido);
+
+    free(specific_order);
+    specific_order = NULL;
 }
 
 void GrandeChico(NimheP G) {
@@ -257,14 +260,14 @@ void Revierte(NimheP G) {
 
 bool meets_condition(NimheP G, u32* x) {
 
-    bool *used;
-    used = malloc(G->no_vertices * sizeof(bool));
-    memset(used, false, G->no_vertices * sizeof(bool));
+    memset(G->used, false, (G->no_vertices + 1) * sizeof(bool));
     for(u32 i = 0; i < G->no_vertices; i++) {
-        if((x[i] >= G->no_vertices) || ((x[i] < G->no_vertices) && (used[x[i]])))
+        if((x[i] >= G->no_vertices) || ((x[i] < G->no_vertices) && (G->used[x[i]]))) {
+
             return false;
+        }
         else
-            used[x[i]] = true;
+            G->used[x[i]] = true;
     }
     return true;
 }

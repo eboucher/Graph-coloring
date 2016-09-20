@@ -21,26 +21,33 @@ u32 hash_code(u32 key, u32 size) {
     return key % size;
 }
 
-u32 find_vertex_hash(NimheP G, u32 vertex, bool *vertex_loaded) {
+u32 find_vertex_hash(NimheP G, u32 vertex, bool *v_loaded) {
 
     u32 hash_index = hash_code(vertex, G->no_vertices);
-
+    u32 counter = G->no_vertices;
     /* Find corresponding position in name_array: Move until an empty cell or
        until current cell found is already assigned to fst_vertex */
-    while(vertex_loaded[hash_index] && G->name_array[hash_index] != vertex) {
+    while(counter && v_loaded[hash_index] && G->name_array[hash_index] != vertex) {
 
         /* go to next cell */
         ++hash_index;
 
         /* wrap around the table */
         hash_index %= G->no_vertices;
+
+        /* Decrement the counter */
+        --counter;
     }
 
-    if(!vertex_loaded[hash_index]) {
+    if(!counter) {
+        perror("Error en formato de entrada\n");
+        exit(EXIT_FAILURE);
+
+    } else if(!v_loaded[hash_index]) {
         G->name_array[hash_index] = vertex;
         G->order[hash_index] = hash_index;
         G->natural_order[hash_index] = hash_index;
-        vertex_loaded[hash_index] = true;
+        v_loaded[hash_index] = true;
         vector_init(&G->neighbors_array[hash_index]);
     }
 
@@ -48,12 +55,12 @@ u32 find_vertex_hash(NimheP G, u32 vertex, bool *vertex_loaded) {
 
 }
 
-void insert_edge(NimheP G, u32 fst_vertex, u32 snd_vertex, bool *vertex_loaded) {
+void insert_edge(NimheP G, u32 fst_vertex, u32 snd_vertex, bool *v_loaded) {
 
     /* Get hash index in name_array of each vertex */
 
-    u32 fst_index = find_vertex_hash(G, fst_vertex, vertex_loaded);
-    u32 snd_index = find_vertex_hash(G, snd_vertex, vertex_loaded);
+    u32 fst_index = find_vertex_hash(G, fst_vertex, v_loaded);
+    u32 snd_index = find_vertex_hash(G, snd_vertex, v_loaded);
 
     /* Now, add each other as neighbors */
 

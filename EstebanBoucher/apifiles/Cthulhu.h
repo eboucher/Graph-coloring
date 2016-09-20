@@ -36,7 +36,7 @@ typedef struct _NimheSt_t {
     u32 *order;                 /* Coloring order */
     u32 *natural_order;         /* Natural order */
     u32 *vertices_with_color;   /* Array to store number of vertices colored with each color */
-    bool *used_color;           /* Array to be used in Greedy coloring function */
+    bool *used;                 /* Array to be used in Greedy function and OrdenEspecifico */
 } *NimheP;
 
 
