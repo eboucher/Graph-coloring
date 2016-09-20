@@ -45,7 +45,8 @@ typedef struct _NimheSt_t {
     u32 *order;                 /* Coloring order */
     u32 *natural_order;         /* Natural order */
     u32 *vertices_with_color;   /* Array to store number of vertices colored with each color */
-    bool *used;                 /* Array to be used in Greedy function and OrdenEspecifico */
+    bool *used;                 /* Array to be used multiple times to check whether some element
+                                   is being used. Namely in NuevoNimhe(), Greedy() and OrdenEspecifico() */
 } *NimheP;
 
 typedef struct _QueueSt_t {

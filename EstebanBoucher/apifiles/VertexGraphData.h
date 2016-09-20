@@ -9,7 +9,6 @@
 
 #include "Types.h"
 
-typedef struct _NimheSt_t *NimheP;       /* Forward declaration of *NimheP */
 
 /* VERTEX FUNCTIONS */
 
@@ -30,9 +29,7 @@ u32 NombreDelVertice(VerticeSt x);
 
 void ImprimirVecinosDelVertice(VerticeSt x, NimheP G);
 /*
- * Prints a list of vertex x's neighbors in standard output. The list
- * must be formed by the real names of the vertices, separated by commas,
- * with a period at the end of the list.
+ * Prints the list of x's neighbors in standard output.
  */
 
 /* FUNCTIONS TO RETRIEVE DATA FROM A GRAPH  */
@@ -55,14 +52,13 @@ u32 NumeroDeVerticesDeColor(NimheP G, u32 i);
 
 u32 ImprimirVerticesDeColor(NimheP G, u32 i);
 /*
- * Vertices having color i, separated by commas and a period after
- * the last color. (If i = 0 this list will be the list of uncolored
- * vertices).
+ * Vertices having color i. (If i = 0 this list will be the list
+ * of uncolored vertices).
  * For example:
- * Vértices de Color 3: 15,17,1.
+ * Vertices de Color 3: 15,17,1.
  *
  * Vertices need not necessarily to be sorted.
- * If there is no vertex of color i, print “No hay vértices de color i”.
+ * If there is no vertex of color i, print “No hay vertices de color i”.
  * Returns the number of vertices of color i.
  */
 
