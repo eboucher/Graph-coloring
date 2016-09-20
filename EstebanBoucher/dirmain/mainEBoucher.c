@@ -60,7 +60,7 @@ int main() {
         printf("Grafo Bipartito\n");
         return (DestruirNimhe(graph) == 1 ? 0 : 1);
     } else {
-        printf("Grafo NO Bipartito\n");
+        printf("Grafo No Bipartito\n");
     }
 
     /* Starting to run Greedy 10 times with Orden Aleatorio order */
@@ -116,7 +116,7 @@ int main() {
 
     srand(time(NULL));
 
-    for (int i=1; i<=1001; i++) {
+    for (int i=1; i<=1000; i++) {
 
         random_option = (rand() % 16);
         if (random_option <= 7) {

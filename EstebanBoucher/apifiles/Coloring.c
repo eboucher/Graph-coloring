@@ -257,12 +257,9 @@ void Revierte(NimheP G) {
 
 bool meets_condition(NimheP G, u32* x) {
 
-    if(sizeof(x)/sizeof(u32) != G->no_vertices)
-        return false;
-
     bool *used;
     used = malloc(G->no_vertices * sizeof(bool));
-    memset(used, false, (G->no_vertices + 1) * sizeof(bool));
+    memset(used, false, G->no_vertices * sizeof(bool));
     for(u32 i = 0; i < G->no_vertices; i++) {
         if((x[i] >= G->no_vertices) || ((x[i] < G->no_vertices) && (used[x[i]])))
             return false;
