@@ -5,7 +5,6 @@
 */
 
 #include "Cthulhu.h"
-#include "DataStructs.h"
 
 /* GRAPH CONSTRUCTION AND DESTRUCTION FUNCTIONS */
 

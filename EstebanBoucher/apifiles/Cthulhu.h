@@ -7,21 +7,12 @@
 #ifndef CTHULHU_H
 #define CTHULHU_H
 
+#include "Types.h"
+#include "Coloring.h"
 #include "GraphLoad.h"
 #include "DataStructs.h"
 #include "VertexGraphData.h"
-#include "Coloring.h"
-#include "Types.h"
-
-#define LINE_LENGHT 80
-
-/* STRUCTURES FOR GRAPH REPRESENTATION */
-
-typedef struct _VerticeSt_t VerticeSt;
-
-typedef struct _NimheSt_t *NimheP;
-
-
+    
 /* GRAPH CONSTRUCTION AND DESTRUCTION FUNCTIONS */
 
 NimheP NuevoNimhe(void);

@@ -13,7 +13,7 @@ void vector_init(Vector *V);
 /*
  * Initializes a vector struct. It sets size to 0, capacity to
  * VECTOR_INITIAL_CAPACITY and allocates an appropriate amount of memory
- * (vector->capacity * sizeof(VerticeSt)) for the underlying data array.
+ * (vector->capacity * sizeof(u32)) for the underlying data array.
  */
  
 void vector_append(Vector *V, u32 value);
@@ -23,24 +23,17 @@ void vector_append(Vector *V, u32 value);
  * this value. Increments vector->size.
  */
 
-u32 vector_get(Vector *V, u32 index);
-/*
- * Returns a value out of a vector at the given index. If the index is below 0
- * or greater than vector->size - 1, this function should complain about the 
- * index being out of bounds.
- */
-
 void vector_free(Vector *V);
 /*
- * Frees the memory allocated for the data array. We leave freeing of the
- * Vector struct itself to client code.
+ * Frees the memory allocated for the data array. Freeing of the Vector
+ * struct is left itself to client code, which in this program it is the
+ * Cthulhu module.
  */
 
 Queue* Queue_init(u32 max_elems);
-/*
- * Initializes a Queue struct. It sets both front and rear to 0, hence its
- * size is equal to 0, and allocates an appropriate amount of memory
- * ((max_elements) * sizeof(u32)) for the underlying circular array.
+/* 
+ * Queue_init takes argument the maximum number of elements the Queue can
+ * hold, creates a Queue according to it and returns a pointer to the Queue.
  */
 
 void Dequeue(Queue *Q);
@@ -65,8 +58,7 @@ bool Queue_is_empty(Queue *Q);
 
 void Queue_free(Queue *Q);
 /*
- * Frees the memory allocated for the elements array. Leaves freeing of the
- * Vector struct itself to client code.
+ * Frees the memory allocated for the elements array.
  */
 
 #endif

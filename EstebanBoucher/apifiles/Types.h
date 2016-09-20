@@ -16,6 +16,7 @@
 
 typedef uint32_t u32;
 
+#define LINE_LENGHT 80
 #define VECTOR_INITIAL_CAPACITY 8
 #define VECTOR_GROWTH_RATE 8
 
