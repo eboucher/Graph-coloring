@@ -9,28 +9,6 @@
 
 #include "Types.h"
 
-// #define VECTOR_INITIAL_CAPACITY 8   // EITHER NEEDS TO BE MOVED TO GRAPH_LOAD OR TO BE REMOVED !!
-#define VECTOR_GROWTH_RATE 8
-
-typedef struct _VerticeSt_t VerticeSt; /* Forward declaration of VerticeSt */
-
-/* Define a vector type */
-
-typedef struct _VectorSt_t {
-    u32 capacity;     	/* total available slots */
-    u32 size;         	/* slots used so far */
-    u32 *data;          /* array of indices of neighbor vertices in vertices array */
-} Vector;
-
-/* Define a queue type */
-
- typedef struct _QueueSt_t {
-    u32 capacity;     	/* total available slots */
-    u32 front;			/* index of first element */
-    u32 rear;			/* Index of last element */
-    u32 *elements;      /* array of elements */
-} Queue;
-
 void vector_init(Vector *V);
 /*
  * Initializes a vector struct. It sets size to 0, capacity to
