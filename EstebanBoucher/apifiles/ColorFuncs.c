@@ -80,26 +80,42 @@ int Chidos(NimheP G) {
 
 u32 Greedy(NimheP G) {
 
+    /* Here, used array represents array of "used" or "unavailable" colors.
+       set this array in false, as initially, no color is being used */
     memset(G->used, false, (G->no_vertices + 1) * sizeof(bool));
+    /* Initialize G->vertices_with_color to 0, to be used in GrandeChico and ChicoGrande */
     memset(G->vertices_with_color, 0, (G->no_vertices + 1) * sizeof(u32));
+    /* Initialize color_array to 0, as initially all vertices are non-colored */
     memset(G->color_array, 0, (G->no_vertices) * sizeof(u32));
 
-    G->coloring = 1;
+    /* Assign color 1 to the first vertex in the current order */
     G->color_array[G->order[0]] = 1;
+    /* Now there is 1 color being used in the graph */
+    G->coloring = 1;
+    /* Position 0 of this array stands for number of non-colored vertices */
     G->vertices_with_color[0] = G->no_vertices - 1;
-    G->vertices_with_color[1] = 1;
+    /* Update the number of vertices that are using color 1 */
+    ++G->vertices_with_color[1];
 
     u32 no_neighbors, neighbor_color, i, j;
 
-    /* Assign colors to remaining V-1 vertices */
+    /* Assign colors to remaining G->no_vertices-1 vertices */
     for(i = 1; i < G->no_vertices; i++) {
 
         /* Process all adjacent vertices and flag their colors as unavailable */
         no_neighbors = G->degree_array[G->order[i]];
 
         for(j = 0; j < no_neighbors; j++) {
+            /* Get neighbor color:
+            - G->neighbors_array[G->order[i]] gives the Vector of neighbors of
+             the i-th vertex in current order, let's call it V;
+            - G->neighbors_array[G->order[i]].data[j] gives the identifier
+             of the j-th neighbor of vertex V in the graph G, let's call it W;
+            - G->color_array[G->neighbors_array[G->order[i]].data[j]] gives the
+             color of vertex W */
             neighbor_color = G->color_array[G->neighbors_array[G->order[i]].data[j]];
             if(neighbor_color != 0)
+                /* Mark neighbor's color as unavailable */
                 G->used[neighbor_color] = true;
         }
 
@@ -108,13 +124,13 @@ u32 Greedy(NimheP G) {
             if(!G->used[j])
                 break;
 
-        /* Assign the found color */
+        /* Assign the found color to current vertex */
         G->color_array[G->order[i]] = j;
 
-        /*  */
+        /* Update table of number of colors assigned to G's vertices */
         ++G->vertices_with_color[j];
         --G->vertices_with_color[0];
-
+        /* Update number of colors in G */
         G->coloring = max(G->coloring, j);
 
         /* Reset the values back to false for the next iteration */
