@@ -92,7 +92,7 @@ VerticeSt IesimoVecino(NimheP G, VerticeSt x, u32 i) {
        vertex structs for direct access and return, it needs
        to be reconstructed to support such a format */
     VerticeSt ith_neighbor;
-    /* x's neighbors array stores indices of its neighbors
+    /* x's neighbors array stores indexes of its neighbors
        in NimheSt, hence we get the identifier in NimheSt
        of its i-th neighbor first */
     u32 ith_index = G->neighbors_array[x.index].data[i];
