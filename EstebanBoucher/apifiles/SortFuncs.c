@@ -31,6 +31,7 @@ void shuffle(u32 *array, u32 n, u32 seed) {
 
 void OrdenNatural(NimheP G) {
 
+    /* Declare a local comparison function */
     int CompOrdenNat(const void *elem1, const void *elem2) {
 
         u32 *fst = (u32*)elem1;
@@ -39,12 +40,13 @@ void OrdenNatural(NimheP G) {
         if(G->name_array[*fst] < G->name_array[*snd]) return -1;
         return 0;
     }
-
+    /* Order graph vertices according to the declared comparison function */
     qsort(G->order, G->no_vertices, sizeof(u32), &CompOrdenNat);
 }
 
 void OrdenWelshPowell(NimheP G) {
 
+    /* Declare a local comparison function */
     int CompOrdenWP(const void *elem1, const void *elem2) {
         u32 *fst = (u32*)elem1;
         u32 *snd = (u32*)elem2;
@@ -52,21 +54,32 @@ void OrdenWelshPowell(NimheP G) {
         if(G->degree_array[*fst] < G->degree_array[*snd]) return -1;
         return 0;
     }
+    /* Order graph vertices according to the Welsh-Powell comparison function */
     qsort(G->order, G->no_vertices, sizeof(u32), &CompOrdenWP);
 }
 
 void ReordenAleatorioRestringido(NimheP G) {
 
-    u32 *specific_order, seed;
+    /* Create an array to store a specific order */
+    u32 *specific_order;
+    /* Allocate memory for G->coloring values in specific_order array */
     specific_order = malloc(G->coloring * sizeof(u32));
 
-    for(u32 k = 0; k < G->coloring; k++)
-        specific_order[k] = k + 1;
+    /* Assign values in range 0 to coloring-1 in specific_order array */
+    for(u32 i = 0; i < G->coloring; i++)
+        specific_order[i] = i + 1;
 
+    /* Create a seed variable */
+    u32 seed;
+    /* generate a seed for shuffle function */
     seed = time(NULL);
+    /* Shuffle specific_order array using the generated seed */
     shuffle(specific_order, G->coloring, seed);
 
+    for(u32 i = 0; i < G->no_vertices; i++)
+        G->RAR_order_array[i] = specific_order[G->color_array[i]];
 
+    /* Declare a local comparison function */
     int CompREordenAleatorioRestringido(const void *elem1, const void *elem2) {
         u32 *fst = (u32*)elem1;
         u32 *snd = (u32*)elem2;
@@ -75,14 +88,17 @@ void ReordenAleatorioRestringido(NimheP G) {
         return 0;
     }
 
+    /* Order graph vertices according to the declared comparison function */
     qsort(G->order, G->no_vertices, sizeof(u32), &CompREordenAleatorioRestringido);
 
+    /* Free allocated memory for specific_order array */
     free(specific_order);
     specific_order = NULL;
 }
 
 void GrandeChico(NimheP G) {
 
+    /* Declare a local comparison function */
     int CompOrdenGrandeChico(const void *elem1, const void *elem2) {
 
         int result = 0;
@@ -106,12 +122,13 @@ void GrandeChico(NimheP G) {
         return result;
     }
 
-
+    /* Order graph vertices according to the declared comparison function */
     qsort(G->order, G->no_vertices, sizeof(u32), &CompOrdenGrandeChico);
 }
 
 void ChicoGrande(NimheP G) {
 
+    /* Declare a local comparison function */
     int CompOrdenChicoGrande(const void *elem1, const void *elem2) {
 
         int result = 0;
@@ -135,11 +152,13 @@ void ChicoGrande(NimheP G) {
         return result;
     }
 
+    /* Order graph vertices according to the declared comparison function */
     qsort(G->order, G->no_vertices, sizeof(u32), &CompOrdenChicoGrande);
 }
 
 void Revierte(NimheP G) {
 
+    /* Declare a local comparison function */
     int CompOrdenRevierte(const void *elem1, const void *elem2) {
         u32 *fst = (u32*)elem1;
         u32 *snd = (u32*)elem2;
@@ -148,23 +167,33 @@ void Revierte(NimheP G) {
         return 0;
     }
 
+    /* Order graph vertices according to the declared comparison function */
     qsort(G->order, G->no_vertices, sizeof(u32), &CompOrdenRevierte);
 }
 
 void OrdenEspecifico(NimheP G, u32* x) {
-
+    /* Variable used to check if string x meets the condition mentioned in
+       the header file */
     bool meets_condition = true;
-
+    /* Here, G->used array is used to mark positions as "used", so that the
+       next try to access them will result in a "repeated" and thus aborting.
+       Initially, no position is marked as "used" */
     memset(G->used, false, (G->no_vertices + 1) * sizeof(bool));
-
+    /* Check if there is some out of bounds or repeated value in x */
     for(u32 i = 0; i < G->no_vertices; i++) {
-        if((x[i] >= G->no_vertices) || ((x[i] < G->no_vertices) && (G->used[x[i]])))
+        if((x[i] >= G->no_vertices) || ((x[i] < G->no_vertices) && (G->used[x[i]]))) {
+            /* Condition is not met */
             meets_condition = false;
+            break;
+        }
         else
+            /* Mark this position x[i]-th position in G as "used" */
             G->used[x[i]] = true;
     }
 
     if(meets_condition)
         for(u32 i = 0; i < G->no_vertices; i++)
+            /* New order is assigned according to the description of the
+               function in the header file */
             G->order[i] = G->natural_order[x[i]];
 }

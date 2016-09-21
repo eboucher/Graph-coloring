@@ -89,7 +89,7 @@ int main() {
     for (int i=1; i<=10; i++) {
         /* Pick a random seed */
         seed = rand();
-        /* Shuffle specific_order array using recently generated seed */
+        /* Shuffle specific_order array using the generated seed */
         main_shuffle(specific_order, no_vertices, seed);
         /* Give a specific order for the vertices in graph to be used for Greedy coloring */
         OrdenEspecifico(graph, specific_order);
@@ -151,6 +151,7 @@ int main() {
             ChicoGrande(graph);
             /* Color graph vertices using Greedy algorithm */
             coloring = Greedy(graph);
+            printf("%i  Greedy sobre el Grafo: %i\n", i, coloring);
             /* Increase ChicoGrande counter */
             a++;
         } else if ((random_option > 7) && (random_option <= 12)) {
@@ -158,6 +159,7 @@ int main() {
             Revierte(graph);
             /* Color graph vertices using Greedy algorithm */
             coloring = Greedy(graph);
+            printf("%i  Greedy sobre el Grafo: %i\n", i, coloring);
             /* Increase Revierte counter */
             c++;
         } else if ((random_option > 12) && (random_option <= 14)) {
@@ -165,6 +167,7 @@ int main() {
             GrandeChico(graph);
             /* Color graph vertices using Greedy algorithm */
             coloring = Greedy(graph);
+            printf("%i  Greedy sobre el Grafo: %i\n", i, coloring);
             /* Increase GrandeChico counter */
             b++;
         } else {
@@ -172,6 +175,7 @@ int main() {
             ReordenAleatorioRestringido(graph);
             /* Color graph vertices using Greedy algorithm */
             coloring = Greedy(graph);
+            printf("%i  Greedy sobre el Grafo: %i\n", i, coloring);
             /* Increase ReordenAleatorioRestringido counter */
             d++;
         }
