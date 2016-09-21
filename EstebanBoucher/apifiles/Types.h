@@ -47,6 +47,7 @@ typedef struct _NimheSt_t {
     u32 *vertices_with_color;   /* Array to store number of vertices colored with each color */
     bool *used;                 /* Array to be used multiple times to check whether some element
                                    is being used. Namely in NuevoNimhe(), Greedy() and OrdenEspecifico() */
+    u32 vertices_checker;       /* Variable to check if there is some extra vertex in input file during load */
 } *NimheP;
 
 typedef struct _QueueSt_t {
