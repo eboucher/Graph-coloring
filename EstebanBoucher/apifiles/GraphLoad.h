@@ -17,7 +17,7 @@ u32 hash_code(u32 key, u32 size);
 u32 find_vertex_hash(NimheP G, u32 vertex, bool *v_loaded);
 /*
  * Whenever an element is to be searched. Compute the hash code of the key passed
- * and locate the actual element index using that hashcode as index in the array.
+ * and locate the actual element index using that hash code as index in the array.
  * Use linear probing to get element ahead if the element was not found at the 
  * computed hash code.
  * In case that vertex was not in G, assign a new cell to it in G->name_array

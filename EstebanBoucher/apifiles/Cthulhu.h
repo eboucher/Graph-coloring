@@ -8,8 +8,9 @@
 #define CTHULHU_H
 
 #include "Types.h"
-#include "Coloring.h"
 #include "GraphLoad.h"
+#include "SortFuncs.h"
+#include "ColorFuncs.h"
 #include "DataStructs.h"
 #include "VertexGraphData.h"
     
