@@ -33,7 +33,7 @@ NimheP NuevoNimhe(void) {
     /* Variables used to temporally store vertices of an edge */
     u32 fst_vertex, snd_vertex;
 
-    while(!strncmp(line_ptr, "c ", 2)) {
+    while(!strncmp(line_ptr, "c", 1)) {
         /* Loop until no more comment lines are found */
         line_ptr = fgets(line, sizeof(line), stdin);
     }
@@ -79,6 +79,10 @@ NimheP NuevoNimhe(void) {
         }
     } else {
         perror("Error en formato de entrada\n");
+        /* Free allocated memory for the graph */
+        free(G);
+        G = NULL;
+        /* Exit with error */
         exit(EXIT_FAILURE);
     }
 
@@ -99,11 +103,18 @@ NimheP NuevoNimhe(void) {
 
             /* Scan line parameters into different tokens */
             sscanf(line_ptr, "%c %u %u", &e_letter, &fst_vertex, &snd_vertex);
-
+            
+            /* Insert edge with copied values */
             insert_edge(G, fst_vertex, snd_vertex, v_loaded);
 
         } else {
             perror("Error en formato de entrada\n");
+            /* Free temporary array used during load */
+            free(v_loaded);
+            v_loaded = NULL;
+            /* Free allocated memory for the graph */
+            DestruirNimhe(G);
+            /* Exit with error */
             exit(EXIT_FAILURE);
         }
         --lines_counter;

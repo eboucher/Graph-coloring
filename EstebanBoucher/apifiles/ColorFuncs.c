@@ -20,7 +20,7 @@ int Chidos(NimheP G) {
     /* Set color array to store colors assigned to all veritces to 0 */
     memset(G->color_array, 0, (G->no_vertices) * sizeof(u32));
 
-    u32 colored = 0  /* Initially no vertex has been colored */
+    u32 colored = 0; /* Initially no vertex has been colored */
     u32 i = 0;       /* Iterator for while loop */
 
     /* Create a queue (FIFO) of vertex identifiers */
