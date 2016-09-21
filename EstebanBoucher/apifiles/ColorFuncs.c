@@ -17,52 +17,64 @@
 
 int Chidos(NimheP G) {
 
-    u32 visited = 0, i = 0;
-
+    /* Set color array to store colors assigned to all veritces to 0 */
     memset(G->color_array, 0, (G->no_vertices) * sizeof(u32));
 
+    u32 colored = 0  /* Initially no vertex has been colored */
+    u32 i = 0;       /* Iterator for while loop */
+
+    /* Create a queue (FIFO) of vertex identifiers */
     Queue *Q = NULL;
+    /* Initialize the queue to store as many identifiers as vertices in G */
     Q = Queue_init(G->no_vertices);
-
-    while(visited < G->no_vertices) {
-
+    /* Main loop to be excecuted until all vertices have been colored */
+    while(colored < G->no_vertices) {
+        /* Pick a non-colored vertex */
         while(i < G->no_vertices) {
             if(!G->color_array[i]) {
+                /* Color this vertex with color 1 */
                 G->color_array[i] = 1;
+                /* Add vertex to the queue */
                 Enqueue(Q, G->order[i]);
-                ++visited;
+                /* Increment colored vertices */
+                ++colored;
+                /* Increment iterator */
                 ++i;
                 break;
             }
+            /* Increment iterator */
             ++i;
         }
-
+        /* Run 2-color algorithm for this connected component */
         while(!Queue_is_empty(Q)) {
-
+            /* Get the first element in the queue */
             u32 V_index = Queue_front(Q);
+            /* Remove first item from the queue */
             Dequeue(Q);
-
+            /* Check and color vertex neighbors */
             for(u32 j = 0; j < G->degree_array[V_index]; j++) {
-
+                /* Get neighbor identifier */
                 u32 W_index = G->neighbors_array[V_index].data[j];
-
+                /* Case neighbor not colored */
                 if(!G->color_array[W_index]) {
-
+                    /* Color neighbor with the other color */
                     G->color_array[W_index] = 3 - G->color_array[V_index];
-                    ++visited;
+                    /* Increment colored vertices */
+                    ++colored;
+                    /* add neighbor to the queue */
                     Enqueue(Q, W_index);
-
+                /* Case neighbor colored with the same color as current vertex */
                 } else if(G->color_array[W_index] == G->color_array[V_index]) {
-
+                    /* Free queue and return 0, χ(G) != 2 */
                     Queue_free(Q);
                     return 0;
                 }
             }
         }
     }
-
+    /* Free queue */
     Queue_free(Q);
-
+    /* If the program got here it is because χ(G) = 2, hence return 1 */
     return 1;
  }
 
