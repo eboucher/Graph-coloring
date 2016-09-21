@@ -11,14 +11,18 @@ u32 time(u32 *t);
 /* AUXILIAR FUNCTION */
 
 void shuffle(u32 *array, u32 n, u32 seed) {
+    /* Set the seed to be used by rand() to generate "random" numbers */
     srand(seed);
     if(n > 1) {
         u32 i;
         for(i = 0; i < n-1; i++) {
-          u32 j = i + rand() / (RAND_MAX / (n - i) + 1);
-          u32 t = array[j];
-          array[j] = array[i];
-          array[i] = t;
+            /* Pick a random position to swap with the one being checked */
+            u32 j = i + rand() / (RAND_MAX / (n - i) + 1);
+            /* Save j-th value in array in a temporary variable */
+            u32 t = array[j];
+            /* Swap these two values */
+            array[j] = array[i];
+            array[i] = t;
         }
     }
 }

@@ -13,13 +13,13 @@
 
 int Chidos(NimheP G);
 /*
- * Devuelve 1 si χ(G) = 2, 0 si no.
+ * Returns 1 if χ(G) = 2, 0 otherwise.
  */
 
 u32 Greedy(NimheP G);
 /*
- * Corre greedy en G con el orden interno que debe estar guardado de alguna
- * forma dentro de G. Devuelve el numero de colores que se obtiene.
+ * Run greedy in G with the internal order. Returns the number of
+ * colors obtained.
  */
 
 #endif
