@@ -63,7 +63,7 @@ int Chidos(NimheP G) {
                     ++colored;
                     /* add neighbor to the queue */
                     Enqueue(Q, W_index);
-                /* Case neighbor colored with the same color as current vertex */
+                /* Case neighbor has the same color as current neighbor */
                 } else if(G->color_array[W_index] == G->color_array[V_index]) {
                     /* Free queue and return 0, χ(G) != 2 */
                     Queue_free(Q);
@@ -83,9 +83,9 @@ u32 Greedy(NimheP G) {
     /* Here, used array represents array of "used" or "unavailable" colors.
        set this array in false, as initially, no color is being used */
     memset(G->used, false, (G->no_vertices + 1) * sizeof(bool));
-    /* Initialize G->vertices_with_color to 0, to be used in GrandeChico and ChicoGrande */
+    /* Initialize G->vertices_with_color to 0 */
     memset(G->vertices_with_color, 0, (G->no_vertices + 1) * sizeof(u32));
-    /* Initialize color_array to 0, as initially all vertices are non-colored */
+    /* Initialize color_array to 0, as all vertices are non-colored */
     memset(G->color_array, 0, (G->no_vertices) * sizeof(u32));
 
     /* Assign color 1 to the first vertex in the current order */
@@ -102,7 +102,7 @@ u32 Greedy(NimheP G) {
     /* Assign colors to remaining G->no_vertices-1 vertices */
     for(i = 1; i < G->no_vertices; i++) {
 
-        /* Process all adjacent vertices and flag their colors as unavailable */
+        /* Process adjacent vertices and flag their colors as unavailable */
         no_neighbors = G->degree_array[G->order[i]];
 
         for(j = 0; j < no_neighbors; j++) {
@@ -113,7 +113,8 @@ u32 Greedy(NimheP G) {
              of the j-th neighbor of vertex V in the graph G, let's call it W;
             - G->color_array[G->neighbors_array[G->order[i]].data[j]] gives the
              color of vertex W */
-            neighbor_color = G->color_array[G->neighbors_array[G->order[i]].data[j]];
+            neighbor_color = G->color_array[
+                             G->neighbors_array[G->order[i]].data[j]];
             if(neighbor_color != 0)
                 /* Mark neighbor's color as unavailable */
                 G->used[neighbor_color] = true;
@@ -135,7 +136,8 @@ u32 Greedy(NimheP G) {
 
         /* Reset the values back to false for the next iteration */
         for(j = 0; j < no_neighbors; j++) {
-            u32 neighbor_color = G->color_array[G->neighbors_array[G->order[i]].data[j]];
+            u32 neighbor_color = G->color_array[
+                                 G->neighbors_array[G->order[i]].data[j]];
             if(neighbor_color != 0)
                 G->used[neighbor_color] = false;
         }

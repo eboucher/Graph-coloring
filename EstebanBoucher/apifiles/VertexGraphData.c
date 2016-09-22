@@ -21,12 +21,13 @@ u32 NombreDelVertice(VerticeSt x) {
 }
 
 void ImprimirVecinosDelVertice(VerticeSt x, NimheP G) {
-    /* Use identifier x.index to access x's list of neighbors and iterate on it */
+    /* Use identifier x.index to access and iterate over its neighbors */
     for(u32 i = 0; i < G->neighbors_array[x.index].size; i++) {
         if(i < G->neighbors_array[x.index].size - 1)
             printf(" %u", G->name_array[G->neighbors_array[x.index].data[i]]);
         else
-            printf(" %u.\n", G->name_array[G->neighbors_array[x.index].data[i]]);
+            printf(" %u.\n", 
+                G->name_array[G->neighbors_array[x.index].data[i]]);
     }
 }
 

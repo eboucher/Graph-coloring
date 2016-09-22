@@ -55,7 +55,7 @@ void OrdenWelshPowell(NimheP G) {
         if(G->degree_array[*fst] < G->degree_array[*snd]) return -1;
         return 0;
     }
-    /* Order graph vertices according to the Welsh-Powell comparison function */
+    /* Order vertices according to the Welsh-Powell comparison function */
     qsort(G->order, G->no_vertices, sizeof(u32), &CompOrdenWP);
 }
 
@@ -81,7 +81,7 @@ void ReordenAleatorioRestringido(NimheP G) {
         G->RAR_order_array[i] = specific_order[G->color_array[i]];
 
     /* Declare a local comparison function */
-    int CompREordenAleatorioRestringido(const void *elem1, const void *elem2) {
+    int CompRAR(const void *elem1, const void *elem2) {
         /* Cast the two input values to pointers to u32 */
         u32 *fst = (u32*)elem1;
         u32 *snd = (u32*)elem2;
@@ -91,7 +91,7 @@ void ReordenAleatorioRestringido(NimheP G) {
     }
 
     /* Order graph vertices according to the declared comparison function */
-    qsort(G->order, G->no_vertices, sizeof(u32), &CompREordenAleatorioRestringido);
+    qsort(G->order, G->no_vertices, sizeof(u32), &CompRAR);
 
     /* Free allocated memory for specific_order array */
     free(specific_order);
@@ -107,15 +107,15 @@ void GrandeChico(NimheP G) {
         /* Cast the two input values to pointers to u32 */
         u32 *fst = (u32*)elem1;
         u32 *snd = (u32*)elem2;
-        /* Get the number of vertices colored with the same color as fst and snd */
+        /* Get number of vertices colored with the same color as fst and snd */
         u32 no_vertices_fst = G->vertices_with_color[G->color_array[*fst]];
         u32 no_vertices_snd = G->vertices_with_color[G->color_array[*snd]];
 
         if(no_vertices_fst < no_vertices_snd) result = 1;
         if(no_vertices_fst > no_vertices_snd) result = -1;
         if(no_vertices_fst == no_vertices_snd) {
-            /* In case both colors "have" the same number of vertices, break ties
-               using the color names in natural order */
+            /* In case both colors "have" the same number of vertices, break
+               ties using the color names in natural order */
             if(G->color_array[*fst] > G->color_array[*snd]) {
                 result = 1;
             } else if(G->color_array[*fst] < G->color_array[*snd]) {
@@ -140,15 +140,15 @@ void ChicoGrande(NimheP G) {
         /* Cast the two input values to pointers to u32 */
         u32 *fst = (u32*)elem1;
         u32 *snd = (u32*)elem2;
-        /* Get the number of vertices colored with the same color as fst and snd */
+        /* Get number of vertices colored with the same color as fst and snd */
         u32 no_vertices_fst = G->vertices_with_color[G->color_array[*fst]];
         u32 no_vertices_snd = G->vertices_with_color[G->color_array[*snd]];
 
         if(no_vertices_fst > no_vertices_snd) result = 1;
         if(no_vertices_fst < no_vertices_snd) result = -1;
         if(no_vertices_fst == no_vertices_snd) {
-            /* In case both colors "have" the same number of vertices, break ties
-               using the color names in natural order */
+            /* In case both colors "have" the same number of vertices, break
+               ties using the color names in natural order */
             if(G->color_array[*fst] > G->color_array[*snd]) {
                 result = 1;
             } else if(G->color_array[*fst] < G->color_array[*snd]) {
@@ -190,7 +190,8 @@ void OrdenEspecifico(NimheP G, u32* x) {
     memset(G->used, false, (G->no_vertices + 1) * sizeof(bool));
     /* Check if there is some out of bounds or repeated value in x */
     for(u32 i = 0; i < G->no_vertices; i++) {
-        if((x[i] >= G->no_vertices) || ((x[i] < G->no_vertices) && (G->used[x[i]]))) {
+        if((x[i] >= G->no_vertices) || ((x[i] < G->no_vertices)
+           && (G->used[x[i]]))) {
             /* Condition is not met */
             meets_condition = false;
             break;

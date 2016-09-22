@@ -55,7 +55,7 @@ u32 find_vertex_hash(NimheP G, u32 vertex, bool *v_loaded) {
         /* Increment number of vertices loaded */
         ++G->vertices_checker;
 
-    } else if(counter)
+    } else if(!counter)
         /* Increment number of vertices loaded */
         ++G->vertices_checker;
 

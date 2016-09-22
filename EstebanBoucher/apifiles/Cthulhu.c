@@ -148,7 +148,7 @@ NimheP NuevoNimhe(void) {
     free(v_loaded);
     v_loaded = NULL;
     
-    /* Allocate memory for the array of used colors to be used in Greedy coloring function */
+    /* Allocate memory for the array of used items */
     G->used = malloc((G->no_vertices + 1) * sizeof(bool));
 
     /* Declare a local comparison function */

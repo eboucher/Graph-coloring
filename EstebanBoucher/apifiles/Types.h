@@ -21,16 +21,16 @@ typedef uint32_t u32;
 #define VECTOR_GROWTH_RATE 8
 
 typedef struct _VerticeSt_t {
-    u32 name;         /* Real name of vertex */
-    u32 degree;       /* Vertex degree */
-    u32 color;        /* Vertex color */
-    u32 index;        /* Index of vertex in Nimhe array of vertices */
+    u32 name;     /* Real name of vertex */
+    u32 degree;   /* Vertex degree */
+    u32 color;    /* Vertex color */
+    u32 index;    /* Index of vertex in Nimhe array of vertices */
 } VerticeSt;
 
 typedef struct _VectorSt_t {
-    u32 capacity;     /* total available slots */
-    u32 size;         /* slots used so far */
-    u32 *data;        /* array of indexes of neighbor vertices in vertices array */
+    u32 capacity; /* total available slots */
+    u32 size;     /* slots used so far */
+    u32 *data;    /* array of indexes of neighbor vertices in vertices array */
 } Vector;
 
 typedef struct _NimheSt_t {
@@ -40,14 +40,20 @@ typedef struct _NimheSt_t {
     u32 *name_array;            /* Array of graph vertex names */
     u32 *color_array;           /* Array of colors of vertices */
     u32 *degree_array;          /* Array of degrees of vertices */
-    u32 *RAR_order_array;       /* Array of values used for RAR order for each vertex */
-    Vector *neighbors_array;    /* Array of lists of neighbors related to each vertex */
+    u32 *RAR_order_array;       /* Array of values used for RAR order for each
+                                   vertex */
+    Vector *neighbors_array;    /* Array of lists of neighbors related to each
+                                   vertex */
     u32 *order;                 /* Coloring order */
     u32 *natural_order;         /* Natural order */
-    u32 *vertices_with_color;   /* Array to store number of vertices colored with each color */
-    bool *used;                 /* Array to be used multiple times to check whether some element
-                                   is being used. Namely in NuevoNimhe(), Greedy() and OrdenEspecifico() */
-    u32 vertices_checker;       /* Variable to check if there is some extra vertex in input file during load */
+    u32 *vertices_with_color;   /* Array to store number of vertices colored
+                                   with each color */
+    bool *used;                 /* Array to be used multiple times to check 
+                                   whether some element is being used. Namely
+                                   in NuevoNimhe(), Greedy() and 
+                                   OrdenEspecifico() */
+    u32 vertices_checker;       /* Variable to check if there is some extra
+                                   vertex in input file during load */
 } *NimheP;
 
 typedef struct _QueueSt_t {

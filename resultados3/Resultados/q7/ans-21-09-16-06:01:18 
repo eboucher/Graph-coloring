@@ -1,0 +1,18 @@
+Grafo No Bipartito
+coloreo aleatorio numero 1: 11 colores
+coloreo aleatorio numero 2: 12 colores
+coloreo aleatorio numero 3: 12 colores
+coloreo aleatorio numero 4: 10 colores
+coloreo aleatorio numero 5: 11 colores
+coloreo aleatorio numero 6: 12 colores
+coloreo aleatorio numero 7: 11 colores
+coloreo aleatorio numero 8: 11 colores
+coloreo aleatorio numero 9: 11 colores
+coloreo aleatorio numero 10: 10 colores
+
+ coloreo con Greddy en WelshPowell:14 colores
+
+====Comenzando Greedy Iterado 1001 veces====
+
+Mejor coloreo con Greedy iterado 1001 veces: 9 colores
+(790 CG,104 GC, 54 R, 52 RAR)

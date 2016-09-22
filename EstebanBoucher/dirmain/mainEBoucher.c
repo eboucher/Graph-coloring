@@ -40,17 +40,23 @@ int main() {
 
     /* Variables Declaration */
 
-    u32 *specific_order;      /* Auxiliar array of specific order to OrdenEspecifico function */
-    u32 coloring;             /* Last coloring obtained with Greedy, used in many iterations */
-    u32 best_coloring;        /* Best coloring obtained so far with Greedy runs */
-    u32 seed, best_seed = 1;  /* Seed used for coloring at these tries and best seed so far */
-    u32 WP_coloring = 0;      /* Coloring got with Greedy at WelshPowell order */
-    u32 random_option = 0;    /* Random option to be used for each of the 1000 coloring tries */
+    /* Auxiliar array of specific order to OrdenEspecifico function */
+    u32 *specific_order;
+    /* Last coloring obtained with Greedy, used in many iterations */
+    u32 coloring;
+    /* Best coloring obtained so far with Greedy runs */
+    u32 best_coloring;
+    /* Seed used for coloring at these tries and best seed so far */
+    u32 seed, best_seed = 1;
+    /* Coloring got with Greedy at WelshPowell order */
+    u32 WP_coloring = 0;
+    /* Random option to be used for each of the 1000 coloring tries */
+    u32 random_option = 0;
 
     u32 a = 0;     /* Number of times Greedy was run with ChicoGrande */
     u32 b = 0;     /* Number of times Greedy was run with GrandeChico */
     u32 c = 0;     /* Number of times Greedy was run with Revierte */
-    u32 d = 0;     /* Number of times Greedy was run with ReaordenAleatorioRestringido */
+    u32 d = 0;     /* Number of times Greedy was run with RAR */
 
     /* ======================================================== */
 
@@ -91,7 +97,7 @@ int main() {
         seed = rand();
         /* Shuffle specific_order array using the generated seed */
         main_shuffle(specific_order, no_vertices, seed);
-        /* Give a specific order for the vertices in graph to be used for Greedy coloring */
+        /* Give a specific order to the graph vertices */
         OrdenEspecifico(graph, specific_order);
         /* Color graph vertices using Greedy algorithm */
         coloring = Greedy(graph);
@@ -121,9 +127,10 @@ int main() {
         return (DestruirNimhe(graph) == 1 ? 0 : 1);
     }
 
-    /* Update best order obtained and retrieve a previous order if necessary */
+    /* Update best order obtained and a get previous order back if necessary */
     if(best_coloring < WP_coloring) {
-        /* Shuffle specific_order the same way as when it gave the best coloring obtained so far */
+        /* Shuffle specific_order the same way as when it gave the best
+        coloring obtained so far */
         main_shuffle(specific_order, no_vertices, best_seed);
         /* Set graph order back to the best order so far */
         OrdenEspecifico(graph, specific_order);
@@ -135,6 +142,10 @@ int main() {
     coloring = CantidadDeColores(graph);
     /* Best coloring set to current coloring for now */
     best_coloring = coloring;
+
+    /* Free allocated memory for specific_order array */
+    free(specific_order);
+    specific_order = NULL;
 
     /* Starting to run Greedy, iterating 1001 times */
 
@@ -151,32 +162,28 @@ int main() {
             ChicoGrande(graph);
             /* Color graph vertices using Greedy algorithm */
             coloring = Greedy(graph);
-            printf("%i  Greedy sobre el Grafo: %i\n", i, coloring);
-            /* Increase ChicoGrande counter */
+            /* Increment ChicoGrande counter */
             a++;
         } else if ((random_option > 7) && (random_option <= 12)) {
             /* Revierte with 31,25% probability */
             Revierte(graph);
             /* Color graph vertices using Greedy algorithm */
             coloring = Greedy(graph);
-            printf("%i  Greedy sobre el Grafo: %i\n", i, coloring);
-            /* Increase Revierte counter */
+            /* Increment Revierte counter */
             c++;
         } else if ((random_option > 12) && (random_option <= 14)) {
             /* GrandeChico with 12,5% probability */
             GrandeChico(graph);
             /* Color graph vertices using Greedy algorithm */
             coloring = Greedy(graph);
-            printf("%i  Greedy sobre el Grafo: %i\n", i, coloring);
-            /* Increase GrandeChico counter */
+            /* Increment GrandeChico counter */
             b++;
         } else {
             /* ReordenAleatorioRestringido with 6,25% probability */
             ReordenAleatorioRestringido(graph);
             /* Color graph vertices using Greedy algorithm */
             coloring = Greedy(graph);
-            printf("%i  Greedy sobre el Grafo: %i\n", i, coloring);
-            /* Increase ReordenAleatorioRestringido counter */
+            /* Increment ReordenAleatorioRestringido counter */
             d++;
         }
         /* Update best_coloring obtained so far */
@@ -190,13 +197,11 @@ int main() {
     best_coloring = min(best_coloring, CantidadDeColores(graph));
 
     /* Print coloring obtained with Greedy iterating 1001 times */
-    printf("Mejor coloreo con Greedy iterado 1001 veces: %u colores\n", best_coloring);
-    /* Print the number of times the graph was colored using each of the above sorting fuctions */
-    printf("(%i CG,%i GC, %i R, %i RAR)\n", a, b, c, d);
-
-    /* Free allocated memory for specific_order array */
-    free(specific_order);
-    specific_order = NULL;
+    printf("Mejor coloreo con Greedy iterado 1001 veces: %u colores\n",
+           best_coloring);
+    /* Print the number of times the graph was colored using each of
+       the above sorting fuctions */
+    printf("(%u CG,%u GC, %u R, %u RAR)\n", a, b, c, d);
 
     /* Destroy graph struct and return */
     return (DestruirNimhe(graph) == 1 ? 0 : 1);
