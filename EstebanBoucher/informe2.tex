@@ -1,26 +1,26 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage{graphicx}
 \usepackage{amsfonts}
 \usepackage[utf8]{inputenc}
-\usepackage[a4paper]{geometry}
-
+\usepackage[a4paper, total={6.5in, 9in}]{geometry}
+\setlength{\footskip}{90pt}
 \begin{document}
 \begin{titlepage}
 	\centering
 
-	\begin{figure}[htp]
-	\centering
-	\includegraphics[scale=.3]{/home/casa/logo-unc.jpeg}
-	\end{figure}
+	%\begin{figure}[htp]
+	%\centering
+	%\includegraphics[scale=.3]{/home/casa/logo-unc.jpeg}
+	%\end{figure}
 	
 	{\scshape\Large\textsc{Universidad Nacional de Córdoba} \par}
 	\vspace{0.5cm}
 	{\scshape\large FaMAF\par}
 	\vspace{1.5cm}
 
-	{\LARGE\bfseries Proyecto de Matemática Discreta II\par}
+	{\LARGE\bfseries Matemática Discreta II\par}
 	\vspace{.7cm}
-	{\Large Primera Parte\par}
+	{\Large Proyecto: Primera Parte\par}
 	\vspace{3cm}
 	{\Large\scshape Esteban L. Boucher\par}
 	\vspace{.4cm}
@@ -33,19 +33,76 @@
 	\date{Septiembre, 2016}
 \end{titlepage}
 
+\renewcommand\refname{}
 
 \renewcommand{\contentsname}{Índice general}
 
 \tableofcontents
-
+	
 \newpage
-\section{Planteamiento del problema}
+\section{Introducción}
 
-En el presente 
+	\subsection{Motivación del proyecto}
 
-	\subsection{Propósito}
+ El problema de coloreo de grafos consiste en asignar colores a ciertos elementos de un grafo sujetos a ciertas restricciones.\\
+
+ El problema de coloreo de vértices es el problema más común de coloreo de grafos. El problema es, dados m colores, encontrar una forma de colorear los vértices de un grafo de tal manera que no hayan dos vértices adyacentes utilizando el mismo color.\\
+ 
+ El problema de coloreo de grafos tiene un gran número de aplicaciones. Entre las aplicaciones conocidas de coloreo de grafos se destacan\cite {1}:
+ 
+\begin{itemize}
+
+\item{\textbf{{{{Establecer horarios y cronogramas}}}}}
+
+Supongamos que queremos hacer un cronograma de exámenes para un universidad. Listamos diferentes asignaturas y estudiantes matriculados en cada asignatura. Muchas asignaturas tendrán estudiantes en común. \emph{¿Cómo se puede organizar el cronograma de modo que no hayan dos exámenes con un estudiante en común estén programadas al mismo tiempo? ¿Cuántas ranuras de tiempo mínimo son necesarios para programar todos los exámenes?} Este problema se puede representar como un grafo en el que cada vértice es una asignatura y una arista entre dos vértices significa que hay un estudiante común. Así que este es un problema de coloreo de grafos, donde el número mínimo de intervalos de tiempo es igual al número cromático del grafo.
+
+\item{\textbf{{{Asignación de frecuencias de radio móvil}}}}
+
+Cuando las frecuencias se asignan a las torres, las frecuencias asignadas a todas las torres en el mismo lugar debe ser diferente. Cómo asignar frecuencias con esta restricción? Lo que se necesita un número mínimo de frecuencias? Este problema es también un ejemplo de problema de coloración gráfica donde cada torre representa un vértice y un borde entre dos torres representa que están en el rango de la otra.
+
+\item{\textbf{{{Sudoku}}}}
+
+Suduku es también una variación del problema de coloreo de grafos en el cual cada celda representa un vértice. Hay una arista entre dos vértices si están en la misma fila o la misma columna o del mismo bloque.
+
+\item{\textbf{{{Asignación de registros}}}}
+
+En optimización de compiladores, la asignación de registros es el proceso de asignar un gran número de variables del programa de destino a un número reducido de registros de la CPU. Este problema también un problema de coloreo de grafos.
+
+\item{\textbf{{{Grafos bipartitos}}}}
+
+Podemos comprobar si un grafo es bipartito o no coloreando el grafo utilizando dos colores. Si un grafo dado es 2-coloreable, entonces es bipartito, de lo contrario no lo es. 
+ 
+\item{\textbf{{{Mapa de coloreo}}}}
+
+Mapas gráficos donde dos ciudades adyacentes no pueden ser asignadas con el mismo color. Cuatro colores son suficientes para colorear cualquier mapa\cite {2}.
+
+\end{itemize}
+ 
+ El siguiente proyecto consiste en la resolución de este problema.
+
+	\subsection{Propósito y objetivos}
+
+Actualmente no se conoce un algoritmo de tiempo polinomial que resuelva el problema de coloreo de grafos. Sin embargo, hay una cierta calidad mínima que se puede obtener. Supongamos que \emph{d} es el mayor grado de cualquier vértice en nuestro grafo. A medida que avanzamos en el coloreo, cuando coloreamos cualquier vértice particular \emph{v}, está unido a lo sumo con otros \emph{d} vértices, de los cuales algunos pueden ya estar coloreados. Luego, hay a lo sumo \emph{d} colores que hay que evitar usar. Usamos el color de menor número no prohibido. Esto significa que usamos colores numerados \emph{d}+1 o menor, dado que al menos uno de los colores 1, 2, ..., \emph{d}+1 NO está prohibido. Entonces nunca necesitamos usar ningún color de mayor número que \emph{d}+1.
+
+ El enunciado anterior es conocido como el \emph{Teorema de Coloreo Greedy}, y nos da una cota superior del número cromático del grafo\cite {4}.
+
+El objetivo de este proyecto consiste en cargar un grafo y dar un coloreo propio de sus vértices, corriendo repetidamente Greedy usando órdenes que cumplan con el enunciado mencionado anteriormente.
 
 \section{Formato del archivo de entrada}
+
+El formato de entrada será una variación de DIMACS, un formato estandard para representar grafos.
+La descripción oficial de DIMACS es como sigue:
+
+1) Ninguna linea tiene mas de 80 caracteres.
+
+2) Al principio hay cero o más líneas que empiezan con 'c' (sin las comillas), las cuales son líneas de comentario y son ignoradas.
+
+3)Luego hay una linea de la forma:
+p edge n m
+
+donde n y m son dos enteros. n representa el número de vértices y m el número de lados.
+
+4) Luego siguen m lineas todas comenzando con 'e' (sin las comillas) y dos enteros, representando un lado. Luego de esas m lineas se detiene la carga.
 
 \section{Estructura de la implementación}
 
@@ -103,20 +160,16 @@ En el presente
 \section{Comentarios}
 
 \newpage
-\section{Bibliografía}
+\section{Referencias}
 \begin{thebibliography}{9}
 \bibitem{1}
-	http://www.geeksforgeeks.org/bipartite-graph/
+	http://www.geeksforgeeks.org/graph-coloring-applications/
 \bibitem{2}
-	https://en.wikipedia.org/wiki/Fisher\%E2\%80\%93Yates\_shuffle
+	https://en.wikipedia.org/wiki/Four\_color\_theorem
 \bibitem{3}
-	http://stackoverflow.com/questions/3437404/min-and-max-in-c
+	https://proofwiki.org/wiki/Definition:Proper\_Coloring
 \bibitem{4}
- 	http://stackoverflow.com/questions/14911813/what-is-the-difference-between-an-uint32-and-an-unsigned-int-in-c
-\bibitem{5}
-	http://stackoverflow.com/questions/20077313/uint32-t-vs-int-as-a-convention-for-everyday-programming	
-\bibitem{6}
-	http://www.geeksforgeeks.org/graph-coloring-set-2-greedy-algorithm/
+ 	http://web.math.princeton.edu/math\_alive/5/Notes2.pdf
 
 \end{thebibliography}
 
