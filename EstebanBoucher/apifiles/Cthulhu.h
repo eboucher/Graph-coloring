@@ -7,7 +7,6 @@
 #ifndef CTHULHU_H
 #define CTHULHU_H
 
-#include "Types.h"
 #include "GraphLoad.h"
 #include "SortFuncs.h"
 #include "ColorFuncs.h"

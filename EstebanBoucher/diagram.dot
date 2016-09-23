@@ -1,0 +1,72 @@
+digraph dfd2{
+    nodesep=0.6
+    ordering=out
+    compound=true;
+    style=bold
+    node[shape=record, style="filled", fillcolor="grey"]
+    edge[color="black", arrowhead="vee"]
+
+    1  [label="   Usuario   ",shape=ellipse, style=filled,fillcolor=lightgrey];
+    2 [label="mainEBoucher.c", shape=Mrecord, style=filled,fillcolor=lightgrey];
+
+    subgraph cluster1 {
+        label ="GraphLoad";
+        node[shape=Mrecord,style=filled];
+        3 [label="GraphLoad.h" shape=Mrecord,fillcolor=lightgrey];
+        4 [label="GraphLoad.c" shape=Mrecord,fillcolor=lightgrey];
+        3 -> 4[arrowsize=.5, weight=1]
+    }
+    subgraph cluster2 {
+        label ="ColorFuncs";
+        node[shape=Mrecord,style=filled];
+        5 [label="ColorFuncs.h" shape=Mrecord,fillcolor=lightgrey];
+        6 [label="ColorFuncs.c" shape=Mrecord,fillcolor=lightgrey];
+        5 -> 6[arrowsize=.5, weight=1]
+    }
+    subgraph cluster3 {
+        label ="DataStructs";
+        node[shape=Mrecord,style=filled];
+        7 [label="DataStructs.h" shape=Mrecord,fillcolor=lightgrey];
+        8 [label="DataStructs.c" shape=Mrecord,fillcolor=lightgrey];
+        7 -> 8[arrowsize=.5, weight=1]
+    }
+    subgraph cluster4 {
+        label ="SortFuncs";
+        node[shape=Mrecord,style=filled];
+        9 [label="SortFuncs.h" shape=Mrecord,fillcolor=lightgrey];
+        10 [label="SortFuncs.c" shape=Mrecord,fillcolor=lightgrey];
+        9 -> 10[arrowsize=.5, weight=1]
+    }
+    subgraph cluster5 {
+        label ="VertexGraphData";
+        node[shape=Mrecord,style=filled];
+        11 [label="VertexGraphData.h" shape=Mrecord,fillcolor=lightgrey];
+        12 [label="VertexGraphData.c" shape=Mrecord,fillcolor=lightgrey];
+        11 -> 12[arrowsize=.5, weight=1]
+    }
+    subgraph cluster6 {
+        label ="Cthulhu";
+        node[style=filled];
+        13 [label="Cthulhu.h" shape=Mrecord,fillcolor=lightgrey];
+        14 [label="Cthulhu.c" shape=Mrecord,fillcolor=lightgrey];
+        13 -> 14[arrowsize=.5, weight=1]
+    }
+
+    15 [label="Types.h" shape=Mrecord, style=filled,fillcolor=lightgrey];
+
+    1 -> 2[arrowsize=.5, weight=1];
+
+    2 -> 3 [lhead=cluster1, arrowsize=.5, weight=1]
+    2 -> 5 [lhead=cluster2, arrowsize=.5, weight=1]
+    2 -> 7 [lhead=cluster3, arrowsize=.5, weight=1, label="          "]
+    2 -> 9 [lhead=cluster4, arrowsize=.5, weight=1, label=""]
+    2 -> 11 [lhead=cluster5, arrowsize=.5, weight=1]
+
+    4 -> 13 [ltail=cluster1,lhead=cluster6, arrowsize=.5, weight=1]
+    6 -> 13 [ltail=cluster2,lhead=cluster6, arrowsize=.5, weight=1]
+    8 -> 13 [ltail=cluster3,lhead=cluster6, arrowsize=.5, weight=1, label="           "]
+    10 -> 13 [ltail=cluster4,lhead=cluster6, arrowsize=.5, weight=1]
+    12 -> 13 [ltail=cluster5,lhead=cluster6, arrowsize=.5, weight=1]
+
+    14 -> 15 [ltail=cluster6];
+}

@@ -1,0 +1,27 @@
+digraph G
+{
+    Usuario
+    node [shape=box, style=rounded];
+
+    1  [label="mainEBoucher.c"];
+    2  [label="GraphLoad.{c,h}"];
+    3  [label="VertexGraphData.{c,h}"];
+    4  [label="SortFuncs.{c,h}"];
+    5  [label="ColorFuncs.{c,h}"];
+    6  [label="DataStructs.{c,h}"];
+    7  [label="Cthulhu.{c,h}"];
+    8  [label="Types.h"];
+
+    Usuario -> 1;
+    1 -> 2;
+    1 -> 3;
+    1 -> 4;
+    1 -> 5;
+    1 -> 6;
+    2 -> 7;
+    3 -> 7;
+    4 -> 7;
+    5 -> 7;
+    6 -> 7;
+    7 -> 8;
+}
