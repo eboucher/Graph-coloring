@@ -4,10 +4,23 @@
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper, total={6.5in, 9in}]{geometry}
 \usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{fixltx2e}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+            {-2.5ex\@plus -1ex \@minus -.25ex}%
+            {1.25ex \@plus .25ex}%
+            {\normalfont\normalsize\bfseries}}
+\makeatother
+\setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
+\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
 
 \theoremstyle{plain}
 \setlength{\footskip}{90pt}
+
 \begin{document}
+
 \begin{titlepage}
 	\centering
 
@@ -41,7 +54,6 @@
 \renewcommand{\contentsname}{Índice general}
 
 \tableofcontents
-	
 \newpage
 \section{Introducción}
 
@@ -81,12 +93,13 @@ Mapas gráficos donde dos ciudades adyacentes no pueden ser asignadas con el mis
 
 \end{itemize}
  
- El siguiente proyecto consiste en la resolución de ese problema.
+ El siguiente programa consiste en la resolución de ese problema.
 
 	\subsection{Propósito y objetivos}
 
-Actualmente no se conoce un algoritmo de tiempo polinomial que resuelva el problema de coloreo de grafos. Sin embargo, hay una cierta calidad mínima que se puede obtener. Supongamos que \emph{d} es el mayor grado de cualquier vértice en nuestro grafo. A medida que avanzamos en el coloreo, cuando coloreamos cualquier vértice particular \emph{v}, está unido a lo sumo con otros \emph{d} vértices, de los cuales algunos pueden ya estar coloreados. Luego, hay a lo sumo \emph{d} colores que hay que evitar usar. Usamos el color de menor número no prohibido. Esto significa que usamos colores numerados \emph{d}+1 o menor, dado que al menos uno de los colores 1, 2, ..., \emph{d}+1 NO está prohibido. Entonces nunca necesitamos usar ningún color de mayor número que \emph{d}+1. Esto nos da el siguiente teorema:
-	
+Actualmente no se conoce un algoritmo de tiempo polinomial que resuelva el problema de coloreo de grafos. Sin embargo, hay una cierta calidad mínima que se puede obtener. Supongamos que \emph{d} es el mayor grado de cualquier vértice en nuestro grafo. A medida que avanzamos en el coloreo, cuando coloreamos cualquier vértice particular \emph{v}, está unido a lo sumo con otros \emph{d} vértices, de los cuales algunos pueden ya estar coloreados. Luego, hay a lo sumo \emph{d} colores que hay que evitar usar. Usamos el color de menor número no prohibido. Esto significa que usamos colores numerados \emph{d}+1 o menor, dado que al menos uno de los colores 1, 2, ..., \emph{d}+1 NO está prohibido. De esta manera, nunca necesitamos usar ningún color de mayor número que \emph{d}+1. Esto nos da el siguiente teorema:
+
+\subsubsection{Coloreo Greedy}
 \newtheorem*{Teorema*}{Teorema (Coloreo Greedy)}
 
 \begin{Teorema*}
@@ -104,7 +117,7 @@ El objetivo de este proyecto consiste en cargar un grafo y dar un coloreo propio
 
 \item\textbf{{Tiempo}}
 
-El programa debe ser razonablemente rápido. En particular, con todos los grafos de ejemplo probados por la cátedra, el programa debe terminar en menos de una hora. Algunos de esos grafos pueden llegar a tener cerca de 2 millones de vértices y 10 millones de aristas.
+El presente programa está estipulado para ser razonablemente rápido. En particular, con todos los grafos de ejemplo probados por la cátedra, se espera que termine en menos de una hora. Algunos de esos grafos pueden llegar a tener cerca de 2 millones de vértices y 10 millones de aristas.
 
 \item\textbf{{Memoria}}
 
@@ -113,6 +126,7 @@ El programa nunca debe usar másde 256 MB de memoria RAM.
 \end{itemize}
 
 \section{Formato del archivo de entrada}
+\label{sec:2}
 
 El formato de entrada será una variación de DIMACS, un formato estandard para representar grafos.
 La descripción oficial de DIMACS es como sigue:
@@ -131,7 +145,7 @@ donde n y m son dos enteros. n representa el número de vértices y m el número
 \newpage
 
 
-\section{Estructura de la implementación}
+\section{Estructura del programa}
 
 En la Figura 1 se muestra un diagrama de la estructuración del programa.\\ 
 
@@ -143,6 +157,7 @@ En la Figura 1 se muestra un diagrama de la estructuración del programa.\\
 \end{figure}
 
 	\subsection{Descripción de estructuras y variables}
+	\label{sec:3.1}
 	
 		\subsubsection{\texttt{struct \_NimheSt\_t}}
 	
@@ -163,17 +178,9 @@ Se utiliza principalmente un arreglo \texttt{order}, que se utiliza para dar el 
 
 \item\textbf{{Información de control}}\\
 
-Se utiliza un arreglo de booleanos \texttt{used} para verificar si algún \emph{ítem} está siendo usado. Utilizo el término impreciso \emph{ítem} justamente porque la semántica de este arreglo cambia en distintos contextos. Esta es sin dudas una práctica que por motivos razonables no se promueve. 
+Se utiliza un arreglo de booleanos \texttt{used} para verificar si algún \emph{ítem} está siendo usado. Utilizo el término impreciso \emph{ítem} justamente porque la semántica de es cambia en las distintas funciones que la utilizan. Más acerca de esto en la sección \ref{sec:7.6}
 
-Sin embargo para el propósito de este proyecto resulta ser beneficioso, dado que si no se contara con esta variable compartida: 
-
-1. Las tres funciones que con esta implementación utilizan el arreglo compartido, deberían crear el arreglo por separado y alocar memoria para la cantidad de elementos necesarios, lo cual lentifica el programa ya que dichas funciones se ejecutan repetidas veces y en ocasiones requiriendo arreglos muy grandes.
-
-2. Aumenta el tamaño máximo de memoria RAM residente ocupado por el programa en ejecución, dado que la memoria de los otros arreglos no se estaría liberando. Si así fuera, el código sería más complicado, y no resolvería el problema 1.
-
-Esto se puede evitar con la variable compartida, dado que en los tres casos, el arreglo requerido es del mismo tamaño - igual a la cantidad de vértices del grafo - y el tipo de datos del arreglo en los tres casos es el mismo, de tipo booleano, más adelante se explicarán sus utilizaciones por separado.\\
-
-Una característica que se mencionó sin ser explicada es la de guardar índices de vértices, en lugar de estructuras, punteros a estructuras \texttt{\_VerticeSt\_t} o los \emph{nombres reales} de los vértices vecinos. Esto se debe a la elección de diseño de esta implementación, el la cuál los vértices o sus nombres "reales" sólo sean de importancia durante la carga del grafo. Luego todas las operaciones se realizan en torno a los arreglos de ordenes o de la información de los vértices sin sus nombres. De esta manera los vértices son referidos luego de la carga directamente a través de sus indices o \emph{identificadores}. 
+Una característica que se mencionó sin ser explicada es la de guardar los índices de los vértices en la lista de vecinos de \texttt{NimheSt}. Esto es una elección de diseño de esta implementación, el la cuál los vértices o sus nombres "reales" sólo sean de importancia durante la carga del grafo. Luego todas las operaciones se realizan en torno a los arreglos de ordenes o de la información de los vértices sin sus nombres. De esta manera los vértices son referidos luego de la carga directamente a través de sus indices o \emph{identificadores}. Más acerca de esta elección en la sección \ref{sec:7.7}
 
 \end{itemize}
 	
@@ -193,17 +200,406 @@ Estructura de datos no utilizada en la implementación del proyecto. Puede ser u
 
 Debido al tamaño del proyecto, esta implentación se presenta en forma de distintos módulos, cada uno agrupando funcionalidades de manera que mantengan cierta independencia y faciliten la legibilidad. Notar sin embargo que los tipos abstractos de datos implementados no son respetados como tales dentro de las funciones de distintos archivos, dado que todos pertenecen a la misma API y por conveniencia se accede a los tipos abstractos de datos como a cualquier estructura.
 
-			\subsubsection{\texttt{Types.h}}
+			\subsubsection{APIfiles}
 
-			\subsubsection{\texttt{Cthulhu.\{c, h\}}}
+				\paragraph{Types.h}
 
-			\subsubsection{\texttt{GraphLoad.\{c, h\}}}
+Este módulo hace las llamadas a las librerías generales necesarias en el programa, define las estructuras de datos descritas en la sección \ref{sec:3.1}. Contiene el tipo de datos \texttt{u32} usando el tipo \texttt{uint32\_t}. El motivo de esta definición es garantizar que \texttt{u32} sea un \emph{entero de 32 bits sin signo}, independientemente del compilador en el que se compila el programa. También define los macros \texttt{LINE\_LENGHT} para usar durante la carga del grafo desde un archivo, y los macros \texttt{VECTOR\_INITIAL\_CAPACITY} y \texttt{VECTOR\_GROWTH\_RATE} para manejar los incrementos en el tamaño de las estructuras \texttt{Vector}.
 
-			\subsubsection{\texttt{DataStructs.\{c, h\}}}
+				\paragraph{Cthulhu.\{c, h\}}
 
-			\subsubsection{\texttt{SortFuncs.\{c, h\}}}
+El módulo \texttt{Cthulhu} contiene los llamados a todos los demás módulos del programa, de manera que puedan ser usados desde \texttt{mainEEboucher.c} incluyendo únicamente a \texttt{Cthulhu.h}.
 
-			\subsubsection{\texttt{ColorFuncs.\{c, h\}}}
+\texttt{Cthulhu} define las funciones de construcción y destrucción del grafo \texttt{NuevoNimhe()}:
+
+\begin{itemize}
+\item{\textbf{{NuevoNimhe()}}}
+
+Prototipo de función:
+
+\texttt{NimheP NuevoNimhe();}
+
+La función aloca memoria, inicializa las variables de \texttt{NimheSt} y devuelve un puntero a ésta. Lee un grafo desde standard input en el formato especificado el la sección \ref{sec:2} y llena la estructura con esos datos.
+
+Ademas de cargar el grafo, asigna el “color” 0 a cada vertice para indicar que están todos no coloreados.
+
+En caso de error, la función devuelve un puntero a \texttt{NULL}. (errores posibles pueden ser falla en alocar memoria, o que el formato de entrada no sea válido, por ejemplo, que la primera linea sin comentarios no empiece con p o que n* $\neq$ n (ver en el ítem de formato de entrada que significa esto)
+
+\item{\textbf{{DestruirNimhe()}}}
+
+Prototipo de función:
+
+\texttt{int DestruirNimhe(NimheP G);}
+
+Destruye G y libera la memoria alocada. Retorna 1 si todo anduvo bien y 0 si no.
+
+\end{itemize}
+
+				\paragraph{GraphLoad.\{c, h\}}
+				\label{sec:3.2.1.3}
+
+Este módulo contiene las funciones auxiliares que se utilizan para la carga de vértices y aristas en el grafo. Las funciones son las siguientes:
+
+\begin{itemize}
+\item{\textbf{{insert\_edge()}}}
+
+Prototipo de la función:
+
+\texttt{void insert\_edge(NimheP G, u32 fst\_vertex, u32 snd\_vertex, bool *v\_loaded);}
+
+Inserta una arista en el grafo copiando los dos vértices que la forman. Para hacer esto busca los índices o \emph{identificadores} de \texttt{fst\_vertex} y \texttt{snd\_vertex} llamando a la función \texttt{find\_vertex\_hash()} y luego agrega el identificador de cada uno en la lista del otro.
+
+\item{\textbf{{find\_vertex\_hash()}}}
+
+Prototipo de la función:
+
+\texttt{u32 find\_vertex\_hash(NimheP G, u32\ vertex, bool *v\_loaded);}
+
+Calcula el \emph{código hash} de \texttt{vertex} y ubica a \texttt{vertex} en el grafo \texttt{G} usando el código \texttt{hash}. Hace un sondeo lineal o \emph{linear probing} para chequear el siguiente elemento en el grafo si \texttt{vertex} no fue encontrado en el \texttt{hash\_code} en caso que \texttt{vertex} no se encuentre en \texttt{G}, la función le asigna la primera celda disponible que encuentra.
+
+\item{\textbf{{hash\_code()}}}
+
+Prototipo de la función:
+
+\texttt{u32 hash\_code(u32 key, u32 size);}
+
+La función define un método de hasheo o \emph{hashing method} para computar el código hash de \texttt{key} en el rango de 0 a \texttt{size} - 1. Para esto se utiliza el método de avalancha definido en la función de hash \emph{MurmurHash}. Más sobre la elección de esta función de hash en la sección \ref{sec:7.8}
+
+\end{itemize}
+
+				\paragraph{VertexGraphData.\{c, h\}}
+
+\textbf{Funciones para extraer información de datos de un vértice:}
+
+\begin{itemize}
+
+\item{\textbf{{ColorDelVertice()}}}
+
+Prototipo de Función:
+
+\texttt{u32 ColorDelVertice(VerticeSt x);}
+
+Devuelve el color con el que está coloreado el vértice \texttt{x}. Si el vértice no esta coloreado, devuelve 0.
+
+\item{\textbf{{GradoDelVertice()}}}
+
+Prototipo de Función:
+
+\texttt{u32 GradoDelVertice(VerticeSt x);}
+
+Devuelve el grado del vértice \texttt{x}.
+
+\item{\textbf{{NombreDelVertice()}}}
+
+Prototipo de Función:
+
+\texttt{u32 NombreDelVertice(VerticeSt x);}
+
+Devuelve el nombre real del vértice \texttt{x}.
+
+
+\item{\textbf{{ImprimirVecinosDelVertice()}}}
+
+Prototipo de Función:
+
+\texttt{void ImprimirVecinosDelVertice(VerticeSt x,NimheP G);}
+
+Imprime en standard output una lista de los vecinos del vértice \texttt{x}.
+\end{itemize}
+
+\textbf{Funciones para extraer información de datos del grafo:}
+
+\begin{itemize}
+\item{\textbf{{NumeroDeVertices()}}}
+
+Prototipo de función:
+
+\texttt{u32 NumeroDeVertices(NimheP G);}
+
+Devuelve el número de vértices del grafo G.
+
+\item{\textbf{{NumeroDeLados()}}}
+
+Prototipo de función:
+
+\texttt{u32 NumeroDeLados(NimheP G);}
+
+Devuelve el número de lados del grafo G.
+
+\item{\textbf{{NumeroDeVerticesDeColor()}}}
+
+Prototipo de función:
+
+\texttt{u32 NumeroVerticesDeColor(NimheP G,u32 i);}
+
+Retorna el número de vértices de color i. (si i = 0 devuelve el número de vertices no coloreados).
+
+\item\textbf{ImprimirVerticesDeColor()}
+
+Prototipo de función:
+
+\texttt{u32 ImprimirVerticesDeColor(NimheP G,u32 i);}
+
+Imprime una lista de los vertices que tienen el color \texttt{i}. Si i = 0, esta representa la lista de vértices no coloreados.
+
+Si no hay vertices de color i imprime “No hay vertices de color i”
+
+Retorna el número de vértices de color i.
+
+\item\textbf{CantidadDeColores()}
+
+Prototipo de función:
+
+\texttt{u32 CantidadDeColores(NimheP G);}
+
+Devuelve la cantidad de colores usados en el coloreo de G.
+
+\item\textbf{IesimoVerticeEnElOrden()}
+
+Prototipo de función:
+
+\texttt{VerticeSt IesimoVerticeEnElOrden(NimheP G,u32 i);}
+
+ Devuelve el vértice numero i en el orden guardado en ese momento en G. (el índice 0 indica el primer vértice, el índice 1 el segundo, etc)
+
+\item\textbf{IesimoVecino()}
+
+Prototipo de funcón:
+
+\texttt{VerticeSt IesimoVecino(NimheP G,VerticeSt x,u32 i);}
+
+Devuelve el vecino número i de \texttt{x} en el orden en que esté guardado en G, (el índice 0 indica el primer vértice, el índice 1 el segundo, etc).
+
+\end{itemize}
+
+				\paragraph{DataStructs.\{c, h\}}
+
+\textbf{Funciones de \texttt{VectorSt}:}
+
+\begin{itemize}
+\item{\textbf{{vector\_init()}}}
+
+Prototipo de la función:
+
+\texttt{void vector\_init(Vector *V);}
+
+Inicializa una estructura \texttt{Vector}. Establece su tamaño en 0, su capacidad en \texttt{VECTOR\_INITIAL \_CAPACITY} y reserva memoria para un arreglo de datos de tamaño igual a \texttt{VECTOR\_INITIAL \_CAPACITY}.
+
+\item{\textbf{{vector\_append()}}}
+
+Prototipo de la función:
+
+\texttt{void vector\_append(Vector *V, u32 value);}
+
+Agrega \texttt{value} al vector \texttt{V}. Si el arreglo de datos está lleno, un llamado a esta función causará que \texttt{vector->data} se expanda para agregar este valor. En cualquier caso, incrementa \texttt{vector->size}.
+
+\item{\textbf{{vector\_free()}}}
+
+Prototipo de la función:
+
+\texttt{void vector\_free(Vector *V);}
+
+Libera la memoria alocada para el arreglo de datos. Observación: esta función no libera la estructura \texttt{Vector}, esto se deja para el \emph{nodo cliente}, que en este caso es el modulo Cthulhu, en la función de \texttt{DestruirNimhe()}.
+
+\end{itemize}
+
+\textbf{Funciones de \texttt{QueueSt}:}
+
+\begin{itemize}
+\item{\textbf{{Queue\_init()}}}
+
+Prototipo de la función:
+
+\texttt{Queue* Queue\_init(u32 max\_elems);}
+
+Toma como argumento el máximo número de elementos que la cola puede contener. Crea una \texttt{Queue} del tamaño recibido en la entrada y retorna un puntero a la misma.
+
+\item{\textbf{{Dequeue()}}}
+
+Prototipo de la función:
+
+\texttt{void Dequeue(Queue *Q);}
+
+Saca el primer elemento de la cola.
+
+\item{\textbf{{Queue\_front()}}}
+
+Prototipo de la función:
+
+\texttt{u32 Queue\_front(Queue *Q);}
+
+Retorna el primer elemento de la cola.
+
+\item{\textbf{{Enqueue()}}}
+
+Prototipo de la función:
+
+\texttt{void Enqueue(Queue *Q, u32 element);}
+
+Inserta un elemento al final de la cola.
+
+\item{\textbf{{Queue\_is\_empty()}}}
+
+Prototipo de la función:
+
+\texttt{bool Queue\_is\_empty(Queue *Q);}
+
+Retorna \texttt{true} si la cola está vacía y \texttt{false} si hay elementos en ella.
+
+\item{\textbf{{Queue\_free()}}}
+
+Prototipo de la función:
+
+\texttt{void Queue\_free(Queue *Q);}
+
+Libera la memoria alocada para el arreglo de los elementos.
+
+\end{itemize}
+
+				\paragraph{SortFuncs.\{c, h\}}
+
+\begin{itemize}
+\item{\textbf{{shuffle()}}}
+
+Prototipo de la función:
+
+\texttt{void shuffle(u32 *array, u32 n, u32 seed);}
+
+Mezcla los elementos de \texttt{array} usando la semilla \texttt{seed} para generar un órden aleatorio.
+
+\item{\textbf{{OrdenNatural()}}}
+
+Prototipo de la función:
+
+\texttt{void OrdenNatural(NimheP G);}
+
+Ordena los vértices del grafo en órden creciente de sus nombres "reales".
+
+\item{\textbf{{OrdenWelshPowell()}}}
+
+Prototipo de la función:
+
+\texttt{void OrdenWelshPowell(NimheP G);}
+
+Ordena los vertices de G de acuerdo con el orden Welsh-Powell, es decir, con los grados en orden no creciente.
+
+\item{\textbf{{ReordenAleatorioRestringido()}}}
+
+Prototipo de la función:
+
+\texttt{void ReordenAleatorioRestringido(NimheP G);}
+
+Si G está coloreado con r colores y W1 son los vértices coloreados con 1, W2 los coloreados con 2, etc, entonces esta función ordena los vértices poniendo primero los vértices de Wj1 (en algún orden) luego los de Wj2 (en algún orden), etc, donde j1, j2, ... son aleatorios (pero distintos).
+
+\item{\textbf{{GrandeChico()}}}
+
+Prototipo de la función:
+
+\texttt{void GrandeChico(NimheP G);}
+
+Si G esta coloreado con r colores y W1 son los vertices coloreados con 1, W2 los coloreados con 2,
+etc, entonces esta función ordena los vertices poniendo primero los vertices de Wj1 (en algún orden)luego los de Wj2 (en algún orden), etc, donde j1, j2, ... son tales que $|Wj1| \geq |Wj2| \geq  ... \geq |Wjr|$.
+
+\item{\textbf{{ChicoGrande()}}}
+
+Prototipo de la función:
+
+\texttt{void ChicoGrande(NimheP G);}
+
+Idem que el anterior excepto que ahora el orden es tal que $|Wj1| \leq |Wj2| \leq ... \leq |Wjr|$
+
+\item{\textbf{{Revierte()}}}
+
+Prototipo de la función:
+
+\texttt{void Revierte(NimheP G);}
+
+Si el grafo está coloreado con r colores y W1 son los vértices coloreados con 1, W2 los coloreados con 2, etc, entonces esta función ordena los vértices poniendo primero los vértices de Wr (en algún orden) luego los de Wr-1 (en algún orden), etc. 
+
+\item{\textbf{{OrdenEspecifico()}}}
+
+Prototipo de la función:
+
+\texttt{void OrdenEspecifico(NimheP G, u32* x);}
+
+Si x cumple la condición, entonces la función ordena los vértices con OrdenNatural(), luego lee el orden dado en el string x y los ordena de acuerdo a lo que lee. Es decir, si luego de OrdenNatural, los vértices quedaron ordenados como, por ejemplo, V[0],V[1],...,V[n-1], luego de OrdenEspecifico el orden debe ser V[x[0]],V[x[1]],...,V[x[n-1]].
+
+\end{itemize}
+
+				\paragraph{ColorFuncs.\{c, h\}}
+
+\begin{itemize}
+\item{\textbf{{Chidos()}}}
+
+Prototipo de función:
+
+\texttt{int Chidos(NimheP G);}
+
+Devuelve 1 si G es bipartito, 0 si no.
+
+\item{\textbf{{Greedy()}}}
+
+Prototipo de función:
+
+\texttt{u32 Greedy(NimheP G);}
+
+Corre greedy en G con el orden interno indicado en la estructura \texttt{NimheSt} de G. Devuelve el número de colores que se obtiene.
+
+\end{itemize}
+
+			\subsubsection{Dirmain}
+			
+				\paragraph{mainEBoucher.c}
+
+Este módulo contiene a la función principal para probar el programa, \texttt{main()}. Tiene solamente las llamadas a \texttt{stdio.h}, \texttt{stdlib.h} y \texttt{Cthulhu.h}.
+
+Define auxiliarmente el prototipo de la función \texttt{time()} para generar números aleatorios, y una función de comparación de dos valores que se usa dentro de la función \texttt{main()}. Además define una función \texttt{shuffle\_f()}, la misma que shuffle() en SortFuncs. Se define nuevamente en este módulo para mantener la independencia del programa \texttt{main()} con respecto a los APIfiles.
+
+Se usa esta interfaz para cargar leer un grafo desde \emph{standard input}, donde la entrada es como se describe en la sección \ref{sec:2}.\\
+
+
+\textbf{{Función main():}}\\
+
+Prueba el programa de la siguiente manera:
+
+1. Carga el grafo. Si el formato de entrada esta mal imprime una línea que dice “Error en formato de entrada” y para. (por ejemplo, si hay una linea que empieza con “d”, o si la primera linea que no empieza con “c” no empieza con “p”, o si el número de vertices que se extrae de los lados no es n, etc).
+
+2. Si $\chi$ (G) = 2 imprime en standard output “Grafo Bipartito” y para.
+
+3. Si $\chi$(G) \textgreater 2 imprime en una línea “Grafo No Bipartito” y luego crea 10 órdenes aleatorios más Welsh-Powell y corre Greedy con cada uno de esos ordenes imprimiendo cuántos colores obtiene en cada caso.
+
+En el caso de las corridas aleatorias cada linea será de la forma
+“coloreo aleatorio numero k: r colores” donde r será el número de colores que obtuvieron y k el número de corrida aleatoria.
+
+En el caso del orden WelshPowell la línea será “coloreo con Greedy en WelshPowell:r colores” Además, antes de esa línea habrá una línea en blanco separando de las lineas anteriores de las corridas aleatorias.
+
+4. Si llegó a este paso es porque el grafo no es bipartito, por lo tanto si alguno de esos coloreos es con tres colores, ya se sabe que $\chi$(G) = 3 así que imprime una línea que diciendo “$\chi$(G) = 3” y para.
+
+5. Si no se obtuvieron 3 colores con ninguno de los coloreos, se imprime una línea en blanco, luego una línea que dice:\\
+
+====Comenzando Greedy Iterado 1001 veces====\\
+
+y luego otra línea en blanco.
+
+Luego toma el mejor coloreo de los primeros 11 anteriores y corre Greedy 1000 veces cambiando el órden de los colores, siguiendo el siguiente patrón:\\
+
+• 50\% ChicoGrande
+
+• 12,5\% GrandeChico
+
+• 31,25\% Revierte
+
+• 6,25\% ReordenAleatorioRestringido\\
+
+(nota: esos porcentajes son 8/16, 2/16, 5/16 y 1/16 respectivamente).
+
+Luego de estas 1000 iteraciones, hace una iteración final con Revierte, e imprime:
+
+Mejor coloreo con Greedy iterado 1001 veces: k colores
+(a CG,b GC, c R, d RAR)
+
+donde k es el menor número de colores que hayan obtenido en las 1001 iteraciones, y a,b,c,d son la cantidad de veces que corrieron Chico Grande,GrandeChico, Revierte y ReordenAleatorioRestringido,
+respectivamente.
 
 		\subsection{Descripción de algoritmos}
 
@@ -239,47 +635,81 @@ La ejecución se puede hacer de las dos siguientes maneras:
 	
 Las pruebas consisten en el monitoreo de la ejecución del programa cuando se corre con un input dado y el control de los resultados de coloreo. Los estimadores de interés para el monitoreo de la ejecución son el tiempo transcurrido que tardó en ejecutarse, y el tamaño máximo del conjunto residente de memoria asignada.
 
-En cuanto al control de los resultados de coloreo, basta con ejecutar la API junto con el \emph{mainEBoucher.c} provisto. Este imprime el coloreo obtenido de 10 iteraciones iniciales con \emph{órden aleatorio}, luego una iteración en \emph{Órden Welsh-Powell} y de no haberse encontrado el número cromático del grafo, corre \emph{Greedy} 1001 veces con los distintos órdenes implementados y luego imprime el mejor coloreo de esas corridas. También corre el algoritmo \emph{2-color} al principio para verificar si el grafo dado es 2-coloreable, y luego de las 11 primeras corridas, verifica si es 3-coloreable antes de correr \emph{Greedy} 1001 veces.
+En cuanto al control de los resultados de coloreo, basta con ejecutar la API junto con el \texttt{mainEBoucher.c} provisto. Este imprime el coloreo obtenido de 10 iteraciones iniciales con \emph{órden aleatorio}, luego una iteración en \emph{Órden Welsh-Powell} y de no haberse encontrado el número cromático del grafo, corre \emph{Greedy} 1001 veces con los distintos órdenes implementados y luego imprime el mejor coloreo de esas corridas. También corre el algoritmo \emph{2-color} al principio para verificar si el grafo dado es 2-coloreable, y luego de las 11 primeras corridas, verifica si es 3-coloreable antes de correr \emph{Greedy} 1001 veces.
 	
 	\subsection{Mecanografiado de las pruebas}
-	
-Existe una gran variedad de herramientas para probar el tiempo y memoria consumidos por el programa. Menciono únicamente dos de ellas:\\
 
-\textbf{1. Comando \emph{htop}}\\
+Existe una gran variedad de herramientas para probar el tiempo y memoria consumidos por el programa. Menciono únicamente dos de ellas:\\
+\begin{itemize}
+\item\textbf{Comando \texttt{htop}}\\
 
  Utilizar \emph{htop} mientras se ejecuta el programa permite visualizar tanto la RAM (columna \emph{RES}) que está siendo usada por el proceso, y el tiempo (columna \emph{TIME+}).\\
 
-\textbf{2. Comando \emph{time}}\\
+\item\textbf{Comando \texttt{time}}\\
 
 El comando \emph{time} corre el programa y da un resúmen de la utilización de recursos.
 
-Una manera de usar este comando puede ser:
+Se puede usar este comando como sigue:
 
 
 \begin{quote}
 \ttfamily{command time -v ./EB \textless [/ruta/al/archivo/nombre\_archivo]}
 \end{quote}
 
-Usar \emph{command} fuerza al shell a ejecutar \emph{time}, ignorando cualquier función del mismo nombre.\\
+\texttt{command} fuerza al shell a ejecutar \texttt{time}, ignorando cualquier función del mismo nombre.\\
 
-Opción \emph{ -v:} Usa el formato detallado, que muestra cada pieza de información disponible sobre el uso de recursos del programa con una descripción en inglés de su significado.
+\texttt{ -v:} Opcional para obtener un formato detallado, mostrando cada pieza de información disponible sobre el uso de recursos del programa con una descripción en inglés de su significado.
+
+\end{itemize}
 
 \section{Desafíos y elecciones de diseño}
 
 	\subsection{Problema: vértices pueden ser cualquier u32}
 
+Esta característica impone la restricción de no poder usar el nombre real de un vértice como índice en el arreglo. Para solucionar este problema, el programa implementa un arreglo como una \emph{hash table}. La hash table utiliza una función hash para insertar elementos en el arreglo y resuelve las colisiones usando sondeo lineal, como se describe en la sección \ref{sec:3.2.1.3}.
+
 	\subsection{Vecinos de un vértice}
+
+La implementación de los vecinos de un vértice también fue un desafío dado que durante la carga del grafo, la cantidad de vecinos que tiene un vértice es desconocida. Se trata este problema usando la estructura \texttt{VectorSt} con un arreglo dinámico, alocando más memoria a medida que se llena el arreglo.
 
 	\subsection{Orden de los vértices}
 
+El problema de implementar el órden de los vértices se debe a la inconveniencia de reordenar los vértices en cada iteración, por lo que resultó necesario considarar otra forma de hacerlo. Para resolver el problema del órden de los vértices, consideramos en primer lugar el estado de los vértices dentro de la estuctura del arreglo: cada vértice está asociado a un solo índice, su \emph{identificador}. Se hace uso de este dato y se implementa el órden de los vértices por medio de otro arreglo en el que la \texttt{i}-ésima posición tiene el identificador del \texttt{i}-ésimo vértice en ese órden.
+
 	\subsection{Greedy()}
+
 
 	\subsection{Funciones de ordenación}
 
 		\subsubsection{Revierte()}
 
 		\subsubsection{GrandeChico() y ChicoGrande()}
-		
+	
+	\subsection{Arreglo de usados}
+	\label{sec:7.6}
+
+Utilizar variables cuya semántica cambia en distintos contextos es sin dudas una práctica que por motivos razonables no se promueve. 
+
+Sin embargo para el propósito de este proyecto resulta ser beneficioso, dado que si no se contara con esta variable compartida: 
+
+1. Las tres funciones que con esta implementación utilizan el arreglo compartido, deberían crear el arreglo por separado y alocar memoria para la cantidad de elementos necesarios, lo cual lentifica el programa ya que dichas funciones se ejecutan repetidas veces y en ocasiones requiriendo arreglos muy grandes.
+
+2. Aumenta el tamaño máximo de memoria RAM residente ocupado por el programa en ejecución, dado que la memoria de los otros arreglos no se estaría liberando. Si así fuera, el código sería más complicado, y no resolvería el problema 1.
+
+Esto se puede evitar con la variable compartida, dado que en los tres casos, el arreglo requerido es del mismo tamaño - igual a la cantidad de vértices del grafo - y el tipo de datos del arreglo en los tres casos es el mismo, de tipo booleano, más adelante se explicarán sus utilizaciones por separado.
+
+	\subsection{Identificadores de vértices}
+	\label{sec:7.7}
+	
+La elección de guardar los índices de los vértices en la lista de vecinos de \texttt{NimheSt} en lugar de punteros a estructuras se debe al uso más eficiente de la memoria que se obtiene al no utilizarlos. Además se puede observar una mejora en la velocidad del programa. 
+
+	\subsection{Elección de función \emph{hash}}
+	\label{sec:7.8}
+
+Al momento de elegir una función de hash para la carga de vértices en el grafo, tuve en consideración distintas funciones hash, las cuales diferían en aspectos como rendimiento y simplicidad.
+
+La función de hash \emph{MurmurHash} es una buena función de hash para propósitos generales, y provee tanto simplicidad como una gran resistencia a colisiones, por lo cual fue una buena elección para este programa.\cite {5}
+
 \section{Posibles mejoras}
 
 \section{Comentarios}
@@ -295,7 +725,11 @@ Opción \emph{ -v:} Usa el formato detallado, que muestra cada pieza de informac
 	https://proofwiki.org/wiki/Definition:Proper\_Coloring
 \bibitem{4}
  	http://web.math.princeton.edu/math\_alive/5/Notes2.pdf
+\bibitem{5}
+ 	http://stackoverflow.com/questions/11899616/murmurhash-what-is-it
 
 \end{thebibliography}
+
+\end{document}
 
 \end{document}

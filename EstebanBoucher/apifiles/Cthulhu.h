@@ -34,10 +34,4 @@ int DestruirNimhe(NimheP G);
  * otherwise.
  */
 
-void shuffle(u32 *array, u32 n, u32 seed);
-/*
- * Arrange the N elements of ARRAY in random order. Only effective if N is
- * much smaller than RAND_MAX.
- */
-
 #endif

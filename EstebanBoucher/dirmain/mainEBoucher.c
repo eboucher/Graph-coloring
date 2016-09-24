@@ -19,7 +19,7 @@ u32 time(u32 *t);
 
 /* shuffle function to be used with OrdenAleatorio order. Arrange
    the N elements of ARRAY in random order using the given seed. */
-void main_shuffle(u32 *array, u32 n, u32 seed) {
+void shuffle_f(u32 *array, u32 n, u32 seed) {
     /* Set the seed to be used by rand() to generate "random" numbers */
     srand(seed);
     if(n > 1) {
@@ -96,7 +96,7 @@ int main() {
         /* Pick a random seed */
         seed = rand();
         /* Shuffle specific_order array using the generated seed */
-        main_shuffle(specific_order, no_vertices, seed);
+        shuffle_f(specific_order, no_vertices, seed);
         /* Give a specific order to the graph vertices */
         OrdenEspecifico(graph, specific_order);
         /* Color graph vertices using Greedy algorithm */
@@ -131,7 +131,7 @@ int main() {
     if(best_coloring < WP_coloring) {
         /* Shuffle specific_order the same way as when it gave the best
         coloring obtained so far */
-        main_shuffle(specific_order, no_vertices, best_seed);
+        shuffle_f(specific_order, no_vertices, best_seed);
         /* Set graph order back to the best order so far */
         OrdenEspecifico(graph, specific_order);
         /* Color the graph with that order again */

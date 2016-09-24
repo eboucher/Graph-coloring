@@ -14,7 +14,6 @@
 void shuffle(u32 *array, u32 n, u32 seed);
 /*
  * Shuffle array elements in random order using the given seed.
- * Function to be used in ReordenAleatorioRestringido().
  */
 
 /* SORTING FUNCTIONS */
