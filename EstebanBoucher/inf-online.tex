@@ -5,19 +5,43 @@
 \usepackage[a4paper, total={6.5in, 9in}]{geometry}
 \usepackage{amsthm}
 \usepackage{amssymb}
-\usepackage{fixltx2e}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{indentfirst}
+\usepackage[]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{algorithm,algorithmic}
+\usepackage{algpseudocode}
 
+\hypersetup{
+    colorlinks,
+    linkcolor  = black,
+    citecolor = black
+ }
+ 
 \makeatletter
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
             {-2.5ex\@plus -1ex \@minus -.25ex}%
             {1.25ex \@plus .25ex}%
             {\normalfont\normalsize\bfseries}}
 \makeatother
-\setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
-\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\renewcommand{\figurename}{Figura}
+\addto\captionsenglish{\renewcommand{\figurename}{Figura}}
+
+\makeatletter
+\renewcommand{\ALG@name}{Algoritmo}
+\makeatother
 
 \theoremstyle{plain}
 \setlength{\footskip}{90pt}
+
+\newenvironment{algoritmo}[1][htb]
+  {\renewcommand{\algorithmcfname}{Algoritmo}% Update algorithm name
+   \begin{algorithm}[#1]%
+  }{\end{algorithm}}
 
 \begin{document}
 
@@ -26,7 +50,7 @@
 
 	\begin{figure}[htp]
 	\centering
-	\includegraphics[scale=.3]{/home/casa/logo-unc.jpeg}
+	\includegraphics[scale=.3]{logo-unc.jpeg}
 	\end{figure}
 	
 	{\scshape\Large\textsc{Universidad Nacional de Córdoba} \par}
@@ -69,11 +93,11 @@
 
 \item{\textbf{{{{Establecer horarios y cronogramas}}}}}
 
-Supongamos que queremos hacer un cronograma de exámenes para un universidad. Listamos diferentes asignaturas y estudiantes matriculados en cada asignatura. Muchas asignaturas tendrán estudiantes en común. \emph{¿Cómo se puede organizar el cronograma de modo que no hayan dos exámenes con un estudiante en común estén programadas al mismo tiempo? ¿Cuántas ranuras de tiempo mínimo son necesarios para programar todos los exámenes?} Este problema se puede representar como un grafo en el que cada vértice es una asignatura y una arista entre dos vértices significa que hay un estudiante común. Así que este es un problema de coloreo de grafos, donde el número mínimo de intervalos de tiempo es igual al número cromático del grafo.
+Supongamos que queremos hacer un cronograma de exámenes para un universidad. Listamos diferentes asignaturas y estudiantes matriculados en cada asignatura. Muchas asignaturas tendrán estudiantes en común. \emph{¿Cómo se puede organizar el cronograma de modo que no hayan dos exámenes con un estudiante en común estén programadas al mismo tiempo? ¿Cuántas ranuras de tiempo mínimo son necesarias para programar todos los exámenes?} Este problema se puede representar como un grafo en el que cada vértice es una asignatura y una arista entre dos vértices significa que hay un estudiante común. Así que este es un problema de coloreo de grafos, donde el número mínimo de intervalos de tiempo es igual al número cromático del grafo.
 
 \item{\textbf{{{Asignación de frecuencias de radio móvil}}}}
 
-Cuando las frecuencias se asignan a las torres, las frecuencias asignadas a todas las torres en el mismo lugar debe ser diferente. Cómo asignar frecuencias con esta restricción? Lo que se necesita un número mínimo de frecuencias? Este problema es también un ejemplo de problema de coloración gráfica donde cada torre representa un vértice y un borde entre dos torres representa que están en el rango de la otra.
+Cuando las frecuencias se asignan a las torres, las frecuencias asignadas a todas las torres en el mismo lugar debe ser diferente. ¿Cómo asignar frecuencias con esta restricción? ¿Cuál es el mínimo numero de frecuencias necesarias? Este problema es también un ejemplo de problema de coloración gráfica donde cada torre representa un vértice y un borde entre dos torres representa que están en el rango de la otra.
 
 \item{\textbf{{{Sudoku}}}}
 
@@ -103,13 +127,12 @@ Actualmente no se conoce un algoritmo de tiempo polinomial que resuelva el probl
 \newtheorem*{Teorema*}{Teorema (Coloreo Greedy)}
 
 \begin{Teorema*}
-Si d es el mayor de los grados de los vértices en
-un grafo G, entonces G tiene una coloración adecuada con d + 1 colores o menos, por vía intranasal, el número cromático de G es como máximo d + 1.
+Si d es el mayor de los grados de los vértices en un grafo G, entonces G tiene una coloración propia con d + 1 colores o menos, es decir, el número cromático de G es como máximo d + 1.
 \end{Teorema*}
 
  Esto nos da una cota superior del número cromático del grafo\cite {4}.\\
 
-El objetivo de este proyecto consiste en cargar un grafo y dar un coloreo propio de sus vértices, corriendo repetidamente Greedy usando órdenes que cumplan con el enunciado mencionado anteriormente.
+El objetivo de este proyecto consiste en cargar un grafo y dar un coloreo propio de sus vértices, corriendo repetidamente Greedy usando ordenes que cumplan con el enunciado mencionado anteriormente.
 
 	\subsection{Restricciones}
 
@@ -152,7 +175,7 @@ En la Figura 1 se muestra un diagrama de la estructuración del programa.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.65]{diagram.pdf}
-{\caption{}}
+{\caption{Diagrama de archivos del programa}}
 \label{fig:1}
 \end{figure}
 
@@ -161,8 +184,9 @@ En la Figura 1 se muestra un diagrama de la estructuración del programa.\\
 	
 		\subsubsection{\texttt{struct \_NimheSt\_t}}
 	
-Las estructura principal de este programa es \texttt{struct \_NimheSt\_t}, la cual contiene toda la información necesaria para correr el algoritmo de Greedy y obtener información necesaria para modificar el órden de los vértices acorde a las distintas funciones de ordenación.\\
+Las estructura principal de este programa es \texttt{struct \_NimheSt\_t}, la cual contiene toda la información necesaria para correr el algoritmo de Greedy y obtener información necesaria para modificar el orden de los vértices acorde a las distintas funciones de ordenación.\\
 
+\newpage
 \begin{itemize}
 \item\textbf{{Información básica del grafo}}\\
 
@@ -170,15 +194,15 @@ Las estructura principal de este programa es \texttt{struct \_NimheSt\_t}, la cu
 
 \item\textbf{{Información de los vértices del grafo}}\\
  
- En esta implementación la información que define a los vértices está dispersada en distintos arreglos dentro de la estructura del grafo: un \texttt{name\_array} que contiene los nombres "reales" de los vértices, los cuales en esta implementación son enteros sin signo de 32 bits; un \texttt{color\_array} que guarda el coloreo actual de los vértices, un \texttt{degree\_array} para los grados de los vértices, un \texttt{RAR\_order\_array} para guardar el órden en el cual los vértices deben colorearse si se usa \texttt{ReordenAleatorioRestringido}. Los últimos datos acerca de los vértices son las listas de vecinos, estas están en \texttt{neighbors\_array}, un arreglo de vectores en los cuales se guardan los índices de los vecinos de un vértice\\
+ En esta implementación la información que define a los vértices está dispersada en distintos arreglos dentro de la estructura del grafo: un \texttt{name\_array} que contiene los nombres "reales" de los vértices, los cuales en esta implementación son enteros sin signo de 32 bits; un \texttt{color\_array} que guarda el coloreo actual de los vértices, un \texttt{degree\_array} para los grados de los vértices, un \texttt{RAR\_order\_array} para guardar el orden en el cual los vértices deben colorearse si se usa \texttt{ReordenAleatorioRestringido}. Los últimos datos acerca de los vértices son las listas de vecinos, estas están en \texttt{neighbors\_array}, un arreglo de vectores en los cuales se guardan los índices de los vecinos de un vértice\\
 
-\item\textbf{{Información de órdenes de los vértices}}\\
+\item\textbf{{Información de ordenes de los vértices}}\\
 
-Se utiliza principalmente un arreglo \texttt{order}, que se utiliza para dar el coloreo cuando se corre \emph{Greedy} sobre el grafo. Los arreglos \texttt{natural\_order} y \texttt{vertices\_with\_color} se utilizan para guardar el \emph{órden natural} y \emph{la cantidad de colores coloreados con el color con el que está coloreado el vértice en la i-ésima posición del arreglo}, respectivamente. Se asignan los valores de los últimos dos arreglos al arreglo \texttt{order} cuando se llama a la función de ordenación correspondiente. Más sobre las funciones de ordenación adelante.
+Se utiliza principalmente un arreglo \texttt{order}, que se utiliza para dar el coloreo cuando se corre \emph{Greedy} sobre el grafo. Los arreglos \texttt{natural\_order} y \texttt{vertices\_with\_color} se utilizan para guardar el \emph{orden natural} y \emph{la cantidad de colores coloreados con el color con el que está coloreado el vértice en la i-ésima posición del arreglo}, respectivamente. Se asignan los valores de los últimos dos arreglos al arreglo \texttt{order} cuando se llama a la función de ordenación correspondiente. Más sobre las funciones de ordenación adelante.
 
 \item\textbf{{Información de control}}\\
 
-Se utiliza un arreglo de booleanos \texttt{used} para verificar si algún \emph{ítem} está siendo usado. Utilizo el término impreciso \emph{ítem} justamente porque la semántica de es cambia en las distintas funciones que la utilizan. Más acerca de esto en la sección \ref{sec:7.6}
+Se utiliza un arreglo de booleanos \texttt{used} para verificar si algún \emph{ítem} está siendo usado. Utilizo el término impreciso \emph{ítem} porque la semántica de este arreglo cambia en las distintas funciones que lo utilizan. Más acerca de esto en la sección \ref{sec:7.6}
 
 Una característica que se mencionó sin ser explicada es la de guardar los índices de los vértices en la lista de vecinos de \texttt{NimheSt}. Esto es una elección de diseño de esta implementación, el la cuál los vértices o sus nombres "reales" sólo sean de importancia durante la carga del grafo. Luego todas las operaciones se realizan en torno a los arreglos de ordenes o de la información de los vértices sin sus nombres. De esta manera los vértices son referidos luego de la carga directamente a través de sus indices o \emph{identificadores}. Más acerca de esta elección en la sección \ref{sec:7.7}
 
@@ -465,7 +489,7 @@ Prototipo de la función:
 
 \texttt{void shuffle(u32 *array, u32 n, u32 seed);}
 
-Mezcla los elementos de \texttt{array} usando la semilla \texttt{seed} para generar un órden aleatorio.
+Mezcla los elementos de \texttt{array} usando la semilla \texttt{seed} para generar un orden aleatorio.
 
 \item{\textbf{{OrdenNatural()}}}
 
@@ -473,7 +497,7 @@ Prototipo de la función:
 
 \texttt{void OrdenNatural(NimheP G);}
 
-Ordena los vértices del grafo en órden creciente de sus nombres "reales".
+Ordena los vértices del grafo en orden creciente de sus nombres "reales".
 
 \item{\textbf{{OrdenWelshPowell()}}}
 
@@ -566,7 +590,7 @@ Prueba el programa de la siguiente manera:
 
 2. Si $\chi$ (G) = 2 imprime en standard output “Grafo Bipartito” y para.
 
-3. Si $\chi$(G) \textgreater 2 imprime en una línea “Grafo No Bipartito” y luego crea 10 órdenes aleatorios más Welsh-Powell y corre Greedy con cada uno de esos ordenes imprimiendo cuántos colores obtiene en cada caso.
+3. Si $\chi$(G) \textgreater 2 imprime en una línea “Grafo No Bipartito” y luego crea 10 ordenes aleatorios más Welsh-Powell y corre Greedy con cada uno de esos ordenes imprimiendo cuántos colores obtiene en cada caso.
 
 En el caso de las corridas aleatorias cada linea será de la forma
 “coloreo aleatorio numero k: r colores” donde r será el número de colores que obtuvieron y k el número de corrida aleatoria.
@@ -581,7 +605,7 @@ En el caso del orden WelshPowell la línea será “coloreo con Greedy en WelshP
 
 y luego otra línea en blanco.
 
-Luego toma el mejor coloreo de los primeros 11 anteriores y corre Greedy 1000 veces cambiando el órden de los colores, siguiendo el siguiente patrón:\\
+Luego toma el mejor coloreo de los primeros 11 anteriores y corre Greedy 1000 veces cambiando el orden de los colores, siguiendo el siguiente patrón:\\
 
 • 50\% ChicoGrande
 
@@ -603,9 +627,137 @@ respectivamente.
 
 		\subsection{Descripción de algoritmos}
 
-\section{Indicaciones de error}
+\subsubsection{Algoritmo 2-color}
 
-\section{Correctitud}
+
+Un grafo G=(N, E) es \textbf{bipartito} si sus vértices se pueden separar en dos conjuntos disjuntos U y V, es decir, tal que se cumple:
+
+\begin{itemize}
+
+\item{{U $\cup$ V = N}}
+
+\item{{U $\cap$ V = $\emptyset$}}
+\end{itemize}
+de manera que las aristas sólo pueden conectar vértices de un conjunto con vértices del otro, es decir:
+\begin{itemize}
+\item{{$\forall$ u$_{1}$,u$_{2}$$\in$ U, $\forall$ v$_{1}$,v$_{2}$$\in$ V} {$\forall$ u$_{1}$,u$_{2}$$\in$ U,$\forall$ v$_{1}$,v$_{2}$$\in$ V} no existe ninguna arista {e=(u$_{1}$,u$_{2}$)} {e=(u$_{1}$,u$_{2}$)}
+
+ni {e=(v$_{1}$,v$_{2}$)} {e=(v$_{1}$,v$_{2}$)}}
+
+\end{itemize}
+
+Un grafo bipartito es posible si el coloreo del grafo se puede hacer usando dos colores de tal manera que vértices de un conjunto estén coloreados con el mismo color.\\
+
+El algoritmo utilizado presenta una mínima variación al algoritmo dado en clase: dentro del ciclo para recorrer los vecinos de un vértice se termina la función si se encuentra que uno de sus vecinos ya estaba coloreado con el mismo color. Esto evita la tarea de tener que revisar todos los lados del grafo y verificar si dos vecinos tienen el mismo color:\\
+
+\begin{algoritmo}[H]
+\caption{2-color}}\label{algo:1}
+
+ Descolorear todos los vértices si tienen algún color.
+ 
+ j \leftarrow 0
+ 
+\While{j \textless n} {
+    elegir x $\in$ V no coloreado
+    
+    coloreo C(\texorpdfstring{x})) \leftarrow 1
+    
+    j \leftarrow j + 1
+    
+    crear cola Q con x como su único elemento
+    
+     \While{Q $\neq$ \emptyset}{
+     
+     p $\leftarrow$ 1er elemento de Q
+     
+     remuevo p de Q
+     
+     \For{w $\in$ $\Gamma$(\texorpdfstring{p}))} {
+
+        \If{w no está coloreado}{
+        
+            incluir w en Q
+            
+            colorear C(\texorpdfstring{w})) $\leftarrow$ 3 - C(\texorpdfstring{p}))
+            
+            j $\leftarrow$ j + 1}
+        
+        \If{w tiene el mismo color que p}{
+        
+            \Return "no es 2-coloreable"}
+     }
+     }
+}
+\Return "sí es 2-coloreable"
+}
+\end{algoritmo}
+
+\subsubsection{Algoritmo Greedy de coloreo de vértices}
+
+(Se utiliza la notación vista en clase)\\
+
+\noindent
+\textit{``Si el orden de los vértices es \texorpdfstring{v\textsubscript{1},}, \texorpdfstring{v\textsubscript{2},}, ... , \texorpdfstring{v\textsubscript{n}},:\\
+C(\texorpdfstring{v\textsubscript{1})}) = 1\\
+Para k = 2, 3, ... , N:\\
+\-\ \-\ \-\ C(\texorpdfstring{v\textsubscript{k})}) = $\min$\{j $\in$ \{1, 2, ... , N\}: C(\texorpdfstring{v\textsubscript{i})}) $\neq$ j \- $\forall$ i $\leq$ k - 1 tal que \texorpdfstring{v\textsubscript{i}}\texorpdfstring{v\textsubscript{k}} $\in$ E\}''}\\
+
+Esta implementación del algoritmo utiliza los arreglos de la estructura de \texttt{NimheSt} \texttt{used} para guardar los colores \emph{"prohibidos"} en cada iteración, \texttt{color\_array} donde guarda el color de los vértices.
+
+Comienza estableciendo los valores de esos arreglos en 0, (\emph{false} para el arreglo de colores usados). Luego el algoritmo es el siguiente:
+
+\begin{algorithm}[H]
+\caption{Greedy}\label{algo:2}
+
+ Reestablecer valores de used en \emph{false}
+ 
+ Reestablecer valores de color\_array en 0
+ 
+ Colorear C(\texorpdfstring{x\textsubscript{1ro en el orden}})) \leftarrow 1
+ 
+ coloreo $\leftarrow$ coloreo + 1
+ 
+ Definir neighbor\_color, i, j
+ 
+ 
+ \For{x $\in$ G - \{\texorpdfstring{x\textsubscript{1ro en orden}})\}} {
+    
+    \For{y $\in$ ListaDeVecinos(\texorpdfstring{x}))} {
+    
+     \If{y no está coloreado}{
+         used[$\texorpdfstring{i\textsubscript{y}}$] $\leftarrow$ true
+
+     }
+    
+    }
+    
+    \For{i $\in$ CantVertices(G)}{
+    
+        \If{used[i] $\eq$ false}{
+        
+        Salir
+        }
+    }
+    Colorear C(\texorpdfstring{y})) $\leftarrow$ i
+    
+    Asignar coloreo $\leftarrow$ max(coloreo, i)
+    
+    }    
+    \For{y $\in$ ListaDeVecinos(\texorpdfstring{x}))} {
+    
+     \If{y no está coloreado}{
+         used[$\texorpdfstring{i\textsubscript{y}}$] $\leftarrow$ false
+
+     }
+    
+    }
+
+ }
+\Return coloreo
+}
+\end{algorithm}
+
+Además, en la implementación se utiliza el arreglo \texttt{vertices\_with\_color} para guardar en la i-ésima posición, i $\leq$ \emph{coloreo}, la cantidad de vértices coloreados con el color i. No es utilizado para ejecutar el algoritmo, solo se actualiza cada vez que se asigna un nuevo color a un vértice. Su utilidad está en las funciones de ordenación. Más sobre esto en la sección \ref{7.5.2}.
 
 \section{Instrucciones de operación}
 
@@ -635,7 +787,7 @@ La ejecución se puede hacer de las dos siguientes maneras:
 	
 Las pruebas consisten en el monitoreo de la ejecución del programa cuando se corre con un input dado y el control de los resultados de coloreo. Los estimadores de interés para el monitoreo de la ejecución son el tiempo transcurrido que tardó en ejecutarse, y el tamaño máximo del conjunto residente de memoria asignada.
 
-En cuanto al control de los resultados de coloreo, basta con ejecutar la API junto con el \texttt{mainEBoucher.c} provisto. Este imprime el coloreo obtenido de 10 iteraciones iniciales con \emph{órden aleatorio}, luego una iteración en \emph{Órden Welsh-Powell} y de no haberse encontrado el número cromático del grafo, corre \emph{Greedy} 1001 veces con los distintos órdenes implementados y luego imprime el mejor coloreo de esas corridas. También corre el algoritmo \emph{2-color} al principio para verificar si el grafo dado es 2-coloreable, y luego de las 11 primeras corridas, verifica si es 3-coloreable antes de correr \emph{Greedy} 1001 veces.
+En cuanto al control de los resultados de coloreo, basta con ejecutar la API junto con el \texttt{mainEBoucher.c} provisto. Este imprime el coloreo obtenido de 10 iteraciones iniciales con \emph{orden aleatorio}, luego una iteración en \emph{orden Welsh-Powell} y de no haberse encontrado el número cromático del grafo, corre \emph{Greedy} 1001 veces con los distintos ordenes implementados y luego imprime el mejor coloreo de esas corridas. También corre el algoritmo \emph{2-color} al principio para verificar si el grafo dado es 2-coloreable, y luego de las 11 primeras corridas, verifica si es 3-coloreable antes de correr \emph{Greedy} 1001 veces.
 	
 	\subsection{Mecanografiado de las pruebas}
 
@@ -647,7 +799,7 @@ Existe una gran variedad de herramientas para probar el tiempo y memoria consumi
 
 \item\textbf{Comando \texttt{time}}\\
 
-El comando \emph{time} corre el programa y da un resúmen de la utilización de recursos.
+El comando \emph{time} corre el programa y da un resumen de la utilización de recursos.
 
 Se puede usar este comando como sigue:
 
@@ -674,17 +826,28 @@ La implementación de los vecinos de un vértice también fue un desafío dado q
 
 	\subsection{Orden de los vértices}
 
-El problema de implementar el órden de los vértices se debe a la inconveniencia de reordenar los vértices en cada iteración, por lo que resultó necesario considarar otra forma de hacerlo. Para resolver el problema del órden de los vértices, consideramos en primer lugar el estado de los vértices dentro de la estuctura del arreglo: cada vértice está asociado a un solo índice, su \emph{identificador}. Se hace uso de este dato y se implementa el órden de los vértices por medio de otro arreglo en el que la \texttt{i}-ésima posición tiene el identificador del \texttt{i}-ésimo vértice en ese órden.
-
-	\subsection{Greedy()}
+El problema de implementar el orden de los vértices se debe a la inconveniencia de reordenar los vértices en cada iteración, por lo que resultó necesario considerar otra forma de hacerlo. Para resolver el problema del orden de los vértices, consideramos en primer lugar el estado de los vértices dentro de la estructura del arreglo: cada vértice está asociado a un solo índice, su \emph{identificador}. Se hace uso de este dato y se implementa el orden de los vértices por medio de otro arreglo en el que la \texttt{i}-ésima posición tiene el identificador del \texttt{i}-ésimo vértice en ese orden.
 
 
 	\subsection{Funciones de ordenación}
 
+Todas las funciones de ordenación menos OrdenEspecifico fueron implementadas utilizando la función estándar \texttt{qsort()} y definiendo funciones de comparación locales para pasar a qsort() como parámetro, de manera que en lo que difieren las funciones entre ellas es en la función de comparación definida para pasar a qsort().
+
 		\subsubsection{Revierte()}
 
+La función \texttt{Revierte()} utiliza para su función de comparación el arreglo \texttt{color\_array} para comparar el número de color. De modo que si el número de color de un vértice es mayor que el de otro vértice, éste se ordena primero que el vértice con el que se compara.
+
+Se pasa esta función de comparación a la función qsort() para que ordene el arreglo \texttt{order} de la manera indicada.
+
 		\subsubsection{GrandeChico() y ChicoGrande()}
+		\label{7.5.2}
 	
+Estas funciones resultan un poco más complejas, dado que para definir sus funciones de comparación es necesario obtener la información para comparar desde un nivel más que en las demás funciones. Es decir, el primer nivel es obtener el color del vértice, y el segundo nivel obtener la cantidad de vértices coloreados con ese color.
+
+En ambos casos, para solucionar el problema se agregó en la estructura \texttt{NimheSt} un arreglo en el que se guarde la cantidad de vértices coloreados con cada color, \texttt{vertices\_with\_color}. Este arreglo se actualiza a medida que se colorean los vértices en la función Greedy(), evitando así aumentar la complejidad en tiempo que representaría, por ejemplo, recorrer el grafo entero cada vez que se comparan dos vértices para determinar cual se ordena primera.
+
+Tener una implementación razonablemente eficiente de ellas resulta fundamental dado que son ejecutadas repetidas veces en la prueba del programa. Las dos funciones se implementan de manera similar, sólo difieren en qué vértice se ordena primero en la función de comparación.
+
 	\subsection{Arreglo de usados}
 	\label{sec:7.6}
 
@@ -712,7 +875,15 @@ La función de hash \emph{MurmurHash} es una buena función de hash para propós
 
 \section{Posibles mejoras}
 
-\section{Comentarios}
+Si bien los resultados del tiempo en ejecución de este programa en computadoras con un buen procesador cumplen con la cota de una hora impuesta como máximo, este todavía sigue sin ser extremadamente rápido.
+
+Una optimización a la que éste fue sometido fue la de quitar las estructuras de vértices \texttt{VerticeSt} de \texttt{NimheSt} y esparcir la información que los define en distintos arreglos, de manera que sea más directo operar sobre cada característica de los vértices y también deshacerse de una enorme cantidad de punteros.
+
+Si bien se pudo observar una gran mejora en la utilización de memoria RAM, la optimización no se reflejó en el tiempo de ejecución.
+
+Para intentar mejorar este último punto, el programa fue sometido a una última modificación mayor, que consistió en reemplazar la utilización de la función qsort() por una implementación de \emph{radix sort} adaptada al propósito. Esta última modificación estuvo lejos de producir los resultados deseados pese al entusiasmo. En una búsqueda \emph{al vuelo} de alguna función de ordenación más eficiente que qsort() me encontré con radix sort, que parecía podría funcionar y los cálculos parecían indicar que por los 32 bits que se utilizan para representar a los vértices y su información, radix sort andaría significativamente más rápido.
+
+Esto no fue así, lo que me lleva a considerar que hice mal los cálculos o que no implementé bien la función de radix sort. Ninguno de estos supuestos pude comprobar, y llegué al límite del plazo para la entrega del proyecto, por lo que averiguarlo queda pendiente.
 
 \newpage
 \section{Referencias}
@@ -729,7 +900,5 @@ La función de hash \emph{MurmurHash} es una buena función de hash para propós
  	http://stackoverflow.com/questions/11899616/murmurhash-what-is-it
 
 \end{thebibliography}
-
-\end{document}
 
 \end{document}
