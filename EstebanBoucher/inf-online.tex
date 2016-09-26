@@ -12,6 +12,7 @@
 \usepackage{amsmath}
 \usepackage{algorithm,algorithmic}
 \usepackage{algpseudocode}
+\usepackage[superscript,biblabel]{cite}
 
 \hypersetup{
     colorlinks,
@@ -93,15 +94,15 @@
 
 \item{\textbf{{{{Establecer horarios y cronogramas}}}}}
 
-Supongamos que queremos hacer un cronograma de exámenes para un universidad. Listamos diferentes asignaturas y estudiantes matriculados en cada asignatura. Muchas asignaturas tendrán estudiantes en común. \emph{¿Cómo se puede organizar el cronograma de modo que no hayan dos exámenes con un estudiante en común estén programadas al mismo tiempo? ¿Cuántas ranuras de tiempo mínimo son necesarias para programar todos los exámenes?} Este problema se puede representar como un grafo en el que cada vértice es una asignatura y una arista entre dos vértices significa que hay un estudiante común. Así que este es un problema de coloreo de grafos, donde el número mínimo de intervalos de tiempo es igual al número cromático del grafo.
+Supongamos que queremos hacer un cronograma de exámenes para un universidad. Listamos diferentes asignaturas y estudiantes matriculados en cada asignatura. Muchas asignaturas tendrán estudiantes en común. \emph{¿Cómo se puede organizar el cronograma de modo que no hayan dos exámenes con un estudiante en común programados al mismo tiempo? ¿Cuántas ranuras de tiempo mínimo son necesarias para programar todos los exámenes?} Este problema se puede representar como un grafo en el que cada vértice es una asignatura y una arista entre dos vértices significa que hay un estudiante común. Este es un problema de coloreo de grafos, donde el número mínimo de intervalos de tiempo es igual al número cromático del grafo.
 
 \item{\textbf{{{Asignación de frecuencias de radio móvil}}}}
 
-Cuando las frecuencias se asignan a las torres, las frecuencias asignadas a todas las torres en el mismo lugar debe ser diferente. ¿Cómo asignar frecuencias con esta restricción? ¿Cuál es el mínimo numero de frecuencias necesarias? Este problema es también un ejemplo de problema de coloración gráfica donde cada torre representa un vértice y un borde entre dos torres representa que están en el rango de la otra.
+Cuando se asignan frecuencias a las torres, las frecuencias asignadas a todas las torres que se encuentran en el mismo lugar debe ser diferentes. ¿Cómo asignar frecuencias con esta restricción? ¿Cuál es el mínimo numero de frecuencias necesarias? Este problema es también un ejemplo del problema de coloreo de grafos donde cada torre representa un vértice y una arista entre dos torres representa que están en el rango de la otra.
 
 \item{\textbf{{{Sudoku}}}}
 
-Suduku es también una variación del problema de coloreo de grafos en el cual cada celda representa un vértice. Hay una arista entre dos vértices si están en la misma fila o la misma columna o del mismo bloque.
+El suduku es también una variación del problema de coloreo de grafos en el cual cada celda representa un vértice. Hay una arista entre dos vértices si están en la misma fila o la misma columna o el mismo bloque.
 
 \item{\textbf{{{Asignación de registros}}}}
 
@@ -113,7 +114,7 @@ Podemos comprobar si un grafo es bipartito o no coloreando el grafo utilizando d
  
 \item{\textbf{{{Mapa de coloreo}}}}
 
-Mapas gráficos donde dos ciudades adyacentes no pueden ser asignadas con el mismo color. Cuatro colores son suficientes para colorear cualquier mapa\cite {2}.
+Mapas gráficos de países o provincias donde dos ciudades adyacentes no pueden ser asignadas con el mismo color. Cuatro colores son suficientes para colorear cualquier mapa\cite {2}.
 
 \end{itemize}
  
@@ -121,10 +122,10 @@ Mapas gráficos donde dos ciudades adyacentes no pueden ser asignadas con el mis
 
 	\subsection{Propósito y objetivos}
 
-Actualmente no se conoce un algoritmo de tiempo polinomial que resuelva el problema de coloreo de grafos. Sin embargo, hay una cierta calidad mínima que se puede obtener. Supongamos que \emph{d} es el mayor grado de cualquier vértice en nuestro grafo. A medida que avanzamos en el coloreo, cuando coloreamos cualquier vértice particular \emph{v}, está unido a lo sumo con otros \emph{d} vértices, de los cuales algunos pueden ya estar coloreados. Luego, hay a lo sumo \emph{d} colores que hay que evitar usar. Usamos el color de menor número no prohibido. Esto significa que usamos colores numerados \emph{d}+1 o menor, dado que al menos uno de los colores 1, 2, ..., \emph{d}+1 NO está prohibido. De esta manera, nunca necesitamos usar ningún color de mayor número que \emph{d}+1. Esto nos da el siguiente teorema:
+Actualmente no se conoce un algoritmo de tiempo polinomial que resuelva el problema de coloreo de grafos. Sin embargo, hay una cierta calidad mínima que se puede obtener. Supongamos que \emph{d} es el mayor grado de cualquier vértice en nuestro grafo. A medida que avanzamos en el coloreo, cuando coloreamos cualquier vértice particular \emph{v}, este está unido a lo sumo con otros \emph{d} vértices, de los cuales algunos pueden ya estar coloreados. Luego, hay a lo sumo \emph{d} colores que hay que evitar usar. Usamos el color de menor número no prohibido. Esto significa que usamos colores numerados \emph{d}+1 o menor, dado que al menos uno de los colores 1, 2, ..., \emph{d}+1 NO está prohibido. De esta manera, nunca necesitamos usar ningún color de mayor número que \emph{d}+1. Esto nos da el siguiente teorema:
 
 \subsubsection{Coloreo Greedy}
-\newtheorem*{Teorema*}{Teorema (Coloreo Greedy)}
+\newtheorem*{Teorema*}{Teorema 1 (Coloreo Greedy)}
 
 \begin{Teorema*}
 Si d es el mayor de los grados de los vértices en un grafo G, entonces G tiene una coloración propia con d + 1 colores o menos, es decir, el número cromático de G es como máximo d + 1.
@@ -132,7 +133,7 @@ Si d es el mayor de los grados de los vértices en un grafo G, entonces G tiene 
 
  Esto nos da una cota superior del número cromático del grafo\cite {4}.\\
 
-El objetivo de este proyecto consiste en cargar un grafo y dar un coloreo propio de sus vértices, corriendo repetidamente Greedy usando ordenes que cumplan con el enunciado mencionado anteriormente.
+El objetivo de este proyecto consiste en cargar un grafo y dar un coloreo propio de sus vértices, corriendo repetidamente Greedy usando ordenes que cumplan con el Teorema 1.
 
 	\subsection{Restricciones}
 
@@ -140,37 +141,38 @@ El objetivo de este proyecto consiste en cargar un grafo y dar un coloreo propio
 
 \item\textbf{{Tiempo}}
 
-El presente programa está estipulado para ser razonablemente rápido. En particular, con todos los grafos de ejemplo probados por la cátedra, se espera que termine en menos de una hora. Algunos de esos grafos pueden llegar a tener cerca de 2 millones de vértices y 10 millones de aristas.
+El presente programa está estipulado para ser razonablemente rápido. En particular, con todos los grafos de ejemplo probados por la cátedra\cite{5}\cite{6}, se espera que termine en menos de una hora. Algunos de esos grafos pueden llegar a tener cerca de 2 millones de vértices y 10 millones de aristas.
 
 \item\textbf{{Memoria}}
 
-El programa nunca debe usar másde 256 MB de memoria RAM.
+El programa nunca debe usar más de 256 MB de memoria RAM.
 
 \end{itemize}
 
 \section{Formato del archivo de entrada}
 \label{sec:2}
 
-El formato de entrada será una variación de DIMACS, un formato estandard para representar grafos.
+El formato de entrada es una variación de DIMACS, un formato estándar para representar grafos.
 La descripción oficial de DIMACS es como sigue:
 
-1. Ninguna linea tiene mas de 80 caracteres.
+1. Ninguna línea tiene más de 80 caracteres.
 
 2. Al principio hay cero o más líneas que empiezan con 'c' (sin las comillas), las cuales son líneas de comentario y son ignoradas.
 
-3. Luego hay una linea de la forma:
+3. Luego hay una línea de la forma:
+
 p edge n m
 
 donde n y m son dos enteros. n representa el número de vértices y m el número de lados.
 
-4. Luego siguen m lineas todas comenzando con 'e' (sin las comillas) y dos enteros, representando un lado. Luego de esas m lineas se detiene la carga.
+4. Luego siguen m líneas todas comenzando con 'e' (sin las comillas) y dos enteros, representando un lado. Luego de esas m lineas se detiene la carga.
 
 \newpage
 
 
 \section{Estructura del programa}
 
-En la Figura 1 se muestra un diagrama de la estructuración del programa.\\ 
+En la Figura 1 se muestra un diagrama de la estructuración del programa en los distintos archivos.\\ 
 
 \begin{figure}[htp]
 \centering
@@ -184,13 +186,13 @@ En la Figura 1 se muestra un diagrama de la estructuración del programa.\\
 	
 		\subsubsection{\texttt{struct \_NimheSt\_t}}
 	
-Las estructura principal de este programa es \texttt{struct \_NimheSt\_t}, la cual contiene toda la información necesaria para correr el algoritmo de Greedy y obtener información necesaria para modificar el orden de los vértices acorde a las distintas funciones de ordenación.\\
+Las estructura principal de este programa es \texttt{struct \_NimheSt\_t}, la cual contiene toda la información del grafo necesaria para correr el algoritmo de Greedy y obtener del mismo para modificar el orden de los vértices acorde a las distintas funciones de ordenación.\\
 
 \newpage
 \begin{itemize}
 \item\textbf{{Información básica del grafo}}\\
 
- Esta estructura contiene la cantidad de vértices y lados del grafo cargado y la cantidad de colores que está usando en el momento para colorear los vértices que contiene.\\
+ \texttt{NimheSt} contiene la cantidad de vértices y lados del grafo cargado y la cantidad de colores que está usando en el momento para colorear los vértices que contiene.\\
 
 \item\textbf{{Información de los vértices del grafo}}\\
  
@@ -204,31 +206,31 @@ Se utiliza principalmente un arreglo \texttt{order}, que se utiliza para dar el 
 
 Se utiliza un arreglo de booleanos \texttt{used} para verificar si algún \emph{ítem} está siendo usado. Utilizo el término impreciso \emph{ítem} porque la semántica de este arreglo cambia en las distintas funciones que lo utilizan. Más acerca de esto en la sección \ref{sec:7.6}
 
-Una característica que se mencionó sin ser explicada es la de guardar los índices de los vértices en la lista de vecinos de \texttt{NimheSt}. Esto es una elección de diseño de esta implementación, el la cuál los vértices o sus nombres "reales" sólo sean de importancia durante la carga del grafo. Luego todas las operaciones se realizan en torno a los arreglos de ordenes o de la información de los vértices sin sus nombres. De esta manera los vértices son referidos luego de la carga directamente a través de sus indices o \emph{identificadores}. Más acerca de esta elección en la sección \ref{sec:7.7}
+Una característica que se mencionó sin ser explicada es la de guardar los índices de los vértices en la lista de vecinos de \texttt{NimheSt}. Esto es una elección de diseño de esta implementación, el la cuál los vértices o sus nombres "reales" sólo sean de importancia durante la carga del grafo y en la ordenación por orden natural. Luego todas las operaciones se realizan en torno a los arreglos de ordenes o de la información de los vértices sin sus nombres. De esta manera los vértices son referidos luego de la carga directamente a través de sus índices o \emph{identificadores}. Más acerca de esta elección en la sección \ref{sec:7.7}
 
 \end{itemize}
 	
 		\subsubsection{\texttt{struct \_VectorSt\_t}}
 
-Estructura de datos para representar un arreglo dinámico. Se utiliza en la estructura del grafo para guardar los \emph{identificadores} de los vecinos de un vértice.
+Estructura de datos para representar un arreglo dinámico\cite{7}. Se utiliza en la estructura del grafo para guardar los \emph{identificadores} de los vecinos de un vértice.
 
 		\subsubsection{\texttt{struct \_QueueSt\_t}}
 
-Estructura de datos que implementa una cola circular, dentro de sus miembros tiene un arreglo de \emph{elements} y dos enteros sin signo indicando los índices al primero y el último elemento de la cola.
+Estructura de datos que implementa una cola circular\cite{8}, dentro de sus miembros tiene un arreglo de \emph{elements} y dos enteros sin signo indicando los índices al primero y el último elemento de la cola.
 
 		\subsubsection{\texttt{struct \_VerticeSt\_t}}
 
-Estructura de datos no utilizada en la implementación del proyecto. Puede ser utilizada a través de las funciones de verificación de \texttt{struct VertexGraphData.\{c,h\}} con modificaciones en la función \texttt{main()}
+Estructura de datos no utilizada en la implementación del proyecto. Implementada para el testeo a través de las funciones de verificación de \texttt{struct VertexGraphData.\{c,h\}} con modificaciones en la función \texttt{main()}.
 
 		\subsection{Estructura general}
 
-Debido al tamaño del proyecto, esta implentación se presenta en forma de distintos módulos, cada uno agrupando funcionalidades de manera que mantengan cierta independencia y faciliten la legibilidad. Notar sin embargo que los tipos abstractos de datos implementados no son respetados como tales dentro de las funciones de distintos archivos, dado que todos pertenecen a la misma API y por conveniencia se accede a los tipos abstractos de datos como a cualquier estructura.
+Debido al tamaño del proyecto, esta implementación se presenta en forma de distintos módulos, cada uno agrupando funcionalidades con el objetivo de mantener cierta independencia y facilitar la legibilidad. Notar sin embargo que los tipos abstractos de datos implementados no son respetados como tales dentro de las funciones de los distintos archivos, dado que todos pertenecen a la misma API y por conveniencia se accede a los tipos abstractos de datos como si fuesen cualquier estructura y no necesariamente a través de la interfaz que provean.
 
 			\subsubsection{APIfiles}
 
 				\paragraph{Types.h}
 
-Este módulo hace las llamadas a las librerías generales necesarias en el programa, define las estructuras de datos descritas en la sección \ref{sec:3.1}. Contiene el tipo de datos \texttt{u32} usando el tipo \texttt{uint32\_t}. El motivo de esta definición es garantizar que \texttt{u32} sea un \emph{entero de 32 bits sin signo}, independientemente del compilador en el que se compila el programa. También define los macros \texttt{LINE\_LENGHT} para usar durante la carga del grafo desde un archivo, y los macros \texttt{VECTOR\_INITIAL\_CAPACITY} y \texttt{VECTOR\_GROWTH\_RATE} para manejar los incrementos en el tamaño de las estructuras \texttt{Vector}.
+Este módulo hace las llamadas a las librerías generales necesarias en el programa, define las estructuras de datos descritas en la sección \ref{sec:3.1}. Contiene el tipo de datos \texttt{u32} usando el tipo \texttt{uint32\_t} definido en la librería estándar \texttt{stdint.h}. El motivo de esta definición es garantizar que \texttt{u32} sea un \emph{entero de 32 bits sin signo}, independientemente del compilador en el que se compila el programa. También define los macros \texttt{LINE\_LENGHT} para usar durante la carga del grafo desde un archivo, y los macros \texttt{VECTOR\_INITIAL\_CAPACITY} y \texttt{VECTOR\_GROWTH\_RATE} para manejar los incrementos en el tamaño de las estructuras \texttt{Vector}.
 
 				\paragraph{Cthulhu.\{c, h\}}
 
@@ -243,15 +245,15 @@ Prototipo de función:
 
 \texttt{NimheP NuevoNimhe();}
 
-La función aloca memoria, inicializa las variables de \texttt{NimheSt} y devuelve un puntero a ésta. Lee un grafo desde standard input en el formato especificado el la sección \ref{sec:2} y llena la estructura con esos datos.
+La función aloca memoria, inicializa las variables de \texttt{NimheSt} y devuelve un puntero a ésta. Lee un grafo desde standard input en el formato especificado en la sección \ref{sec:2} y llena la estructura con esos datos.
 
-Ademas de cargar el grafo, asigna el “color” 0 a cada vertice para indicar que están todos no coloreados.
+Además de cargar el grafo, asigna el “color” 0 a cada vértice para indicar que están todos no coloreados.
 
-En caso de error, la función devuelve un puntero a \texttt{NULL}. (errores posibles pueden ser falla en alocar memoria, o que el formato de entrada no sea válido, por ejemplo, que la primera linea sin comentarios no empiece con p o que n* $\neq$ n (ver en el ítem de formato de entrada que significa esto)
+En caso de error, la función devuelve un puntero a \texttt{NULL}. (errores posibles pueden ser falla en alocar memoria, o que el formato de entrada no sea válido, por ejemplo, que la primera línea sin comentarios no empiece con p o que n* $\neq$ n (ver en la sección \ref{sec:2} que significa esto)
 
 \item{\textbf{{DestruirNimhe()}}}
 
-Prototipo de función:
+Prototipo de la función:
 
 \texttt{int DestruirNimhe(NimheP G);}
 
@@ -279,7 +281,7 @@ Prototipo de la función:
 
 \texttt{u32 find\_vertex\_hash(NimheP G, u32\ vertex, bool *v\_loaded);}
 
-Calcula el \emph{código hash} de \texttt{vertex} y ubica a \texttt{vertex} en el grafo \texttt{G} usando el código \texttt{hash}. Hace un sondeo lineal o \emph{linear probing} para chequear el siguiente elemento en el grafo si \texttt{vertex} no fue encontrado en el \texttt{hash\_code} en caso que \texttt{vertex} no se encuentre en \texttt{G}, la función le asigna la primera celda disponible que encuentra.
+Calcula el \emph{código hash} de \texttt{vertex} y ubica a \texttt{vertex} en el grafo \texttt{G} usando el código hash. Hace un sondeo lineal o \emph{linear probing} para chequear el siguiente elemento en el grafo si \texttt{vertex} no fue encontrado en el \texttt{hash\_code} en caso que \texttt{vertex} no se encuentre en \texttt{G}, la función le asigna la primera celda disponible que encuentra.
 
 \item{\textbf{{hash\_code()}}}
 
@@ -299,7 +301,7 @@ La función define un método de hasheo o \emph{hashing method} para computar el
 
 \item{\textbf{{ColorDelVertice()}}}
 
-Prototipo de Función:
+Prototipo de la función:
 
 \texttt{u32 ColorDelVertice(VerticeSt x);}
 
@@ -307,7 +309,7 @@ Devuelve el color con el que está coloreado el vértice \texttt{x}. Si el vért
 
 \item{\textbf{{GradoDelVertice()}}}
 
-Prototipo de Función:
+Prototipo de la función:
 
 \texttt{u32 GradoDelVertice(VerticeSt x);}
 
@@ -315,7 +317,7 @@ Devuelve el grado del vértice \texttt{x}.
 
 \item{\textbf{{NombreDelVertice()}}}
 
-Prototipo de Función:
+Prototipo de la función:
 
 \texttt{u32 NombreDelVertice(VerticeSt x);}
 
@@ -324,7 +326,7 @@ Devuelve el nombre real del vértice \texttt{x}.
 
 \item{\textbf{{ImprimirVecinosDelVertice()}}}
 
-Prototipo de Función:
+Prototipo de la función:
 
 \texttt{void ImprimirVecinosDelVertice(VerticeSt x,NimheP G);}
 
@@ -364,9 +366,9 @@ Prototipo de función:
 
 \texttt{u32 ImprimirVerticesDeColor(NimheP G,u32 i);}
 
-Imprime una lista de los vertices que tienen el color \texttt{i}. Si i = 0, esta representa la lista de vértices no coloreados.
+Imprime una lista de los vértices que tienen el color \texttt{i}. Si i = 0, esta representa la lista de vértices no coloreados.
 
-Si no hay vertices de color i imprime “No hay vertices de color i”
+Si no hay vértices de color i imprime “No hay vertices de color i”
 
 Retorna el número de vértices de color i.
 
@@ -380,7 +382,7 @@ Devuelve la cantidad de colores usados en el coloreo de G.
 
 \item\textbf{IesimoVerticeEnElOrden()}
 
-Prototipo de función:
+Prototipo de la función:
 
 \texttt{VerticeSt IesimoVerticeEnElOrden(NimheP G,u32 i);}
 
@@ -388,7 +390,7 @@ Prototipo de función:
 
 \item\textbf{IesimoVecino()}
 
-Prototipo de funcón:
+Prototipo de la función:
 
 \texttt{VerticeSt IesimoVecino(NimheP G,VerticeSt x,u32 i);}
 
@@ -513,7 +515,7 @@ Prototipo de la función:
 
 \texttt{void ReordenAleatorioRestringido(NimheP G);}
 
-Si G está coloreado con r colores y W1 son los vértices coloreados con 1, W2 los coloreados con 2, etc, entonces esta función ordena los vértices poniendo primero los vértices de Wj1 (en algún orden) luego los de Wj2 (en algún orden), etc, donde j1, j2, ... son aleatorios (pero distintos).
+Si G está coloreado con r colores y $W_{1}$ son los vértices coloreados con 1, $W_2$ los coloreados con 2, etc, entonces esta función ordena los vértices poniendo primero los vértices de $W_{j1}$ (en algún orden) luego los de $W_{j2}$ (en algún orden), etc, donde j1, j2, ... son aleatorios (pero distintos).
 
 \item{\textbf{{GrandeChico()}}}
 
@@ -521,8 +523,8 @@ Prototipo de la función:
 
 \texttt{void GrandeChico(NimheP G);}
 
-Si G esta coloreado con r colores y W1 son los vertices coloreados con 1, W2 los coloreados con 2,
-etc, entonces esta función ordena los vertices poniendo primero los vertices de Wj1 (en algún orden)luego los de Wj2 (en algún orden), etc, donde j1, j2, ... son tales que $|Wj1| \geq |Wj2| \geq  ... \geq |Wjr|$.
+Si G esta coloreado con r colores y $W_{1}$ son los vértices coloreados con 1, $W_{2}$ los coloreados con 2,
+etc, entonces esta función ordena los vertices poniendo primero los vértices de $W_{j1}$ (en algún orden)luego los de $W_{j2}$ (en algún orden), etc, donde j1, j2, ... son tales que $|W_{j1}| \geq |W_{j2}| \geq  ... \geq |W_{jr}|$.
 
 \item{\textbf{{ChicoGrande()}}}
 
@@ -530,7 +532,7 @@ Prototipo de la función:
 
 \texttt{void ChicoGrande(NimheP G);}
 
-Idem que el anterior excepto que ahora el orden es tal que $|Wj1| \leq |Wj2| \leq ... \leq |Wjr|$
+Idem que el anterior excepto que ahora el orden es tal que $|W_{j1}| \leq |W_{j2}| \leq ... \leq |W_{jr}|$
 
 \item{\textbf{{Revierte()}}}
 
@@ -538,7 +540,7 @@ Prototipo de la función:
 
 \texttt{void Revierte(NimheP G);}
 
-Si el grafo está coloreado con r colores y W1 son los vértices coloreados con 1, W2 los coloreados con 2, etc, entonces esta función ordena los vértices poniendo primero los vértices de Wr (en algún orden) luego los de Wr-1 (en algún orden), etc. 
+Si el grafo está coloreado con r colores y $W_{1}$ son los vértices coloreados con 1, $W_{2}$ los coloreados con 2, etc, entonces esta función ordena los vértices poniendo primero los vértices de $W_{r}$ (en algún orden) luego los de $W_{r-1}$ (en algún orden), etc. 
 
 \item{\textbf{{OrdenEspecifico()}}}
 
@@ -835,7 +837,7 @@ Todas las funciones de ordenación menos OrdenEspecifico fueron implementadas ut
 
 		\subsubsection{Revierte()}
 
-La función \texttt{Revierte()} utiliza para su función de comparación el arreglo \texttt{color\_array} para comparar el número de color. De modo que si el número de color de un vértice es mayor que el de otro vértice, éste se ordena primero que el vértice con el que se compara.
+La función \texttt{Revierte()} utiliza para su función de comparación el arreglo \texttt{color\_array} para comparar el número de color. De modo que si el número de color de un vértice es mayor que el de otro vértice, este se ordena primero que el vértice con el que se compara.
 
 Se pasa esta función de comparación a la función qsort() para que ordene el arreglo \texttt{order} de la manera indicada.
 
@@ -853,7 +855,7 @@ Tener una implementación razonablemente eficiente de ellas resulta fundamental 
 
 Utilizar variables cuya semántica cambia en distintos contextos es sin dudas una práctica que por motivos razonables no se promueve. 
 
-Sin embargo para el propósito de este proyecto resulta ser beneficioso, dado que si no se contara con esta variable compartida: 
+Sin embargo para el propósito de este proyecto es de utilidad, dado que si no se contara con esta variable compartida: 
 
 1. Las tres funciones que con esta implementación utilizan el arreglo compartido, deberían crear el arreglo por separado y alocar memoria para la cantidad de elementos necesarios, lo cual lentifica el programa ya que dichas funciones se ejecutan repetidas veces y en ocasiones requiriendo arreglos muy grandes.
 
@@ -871,17 +873,17 @@ La elección de guardar los índices de los vértices en la lista de vecinos de 
 
 Al momento de elegir una función de hash para la carga de vértices en el grafo, tuve en consideración distintas funciones hash, las cuales diferían en aspectos como rendimiento y simplicidad.
 
-La función de hash \emph{MurmurHash} es una buena función de hash para propósitos generales, y provee tanto simplicidad como una gran resistencia a colisiones, por lo cual fue una buena elección para este programa.\cite {5}
+La función de hash \emph{MurmurHash} es una buena función de hash para propósitos generales, y provee tanto simplicidad como una gran resistencia a colisiones, por lo cual fue una buena elección para este programa.\cite {9}
 
 \section{Posibles mejoras}
 
 Si bien los resultados del tiempo en ejecución de este programa en computadoras con un buen procesador cumplen con la cota de una hora impuesta como máximo, este todavía sigue sin ser extremadamente rápido.
 
-Una optimización a la que éste fue sometido fue la de quitar las estructuras de vértices \texttt{VerticeSt} de \texttt{NimheSt} y esparcir la información que los define en distintos arreglos, de manera que sea más directo operar sobre cada característica de los vértices y también deshacerse de una enorme cantidad de punteros.
+Una optimización que se realizó fue la de quitar las estructuras de vértices \texttt{VerticeSt} de \texttt{NimheSt} y esparcir la información que los define en distintos arreglos, de manera que sea más directo operar sobre cada característica de los vértices y también deshacerse de una enorme cantidad de punteros.
 
 Si bien se pudo observar una gran mejora en la utilización de memoria RAM, la optimización no se reflejó en el tiempo de ejecución.
 
-Para intentar mejorar este último punto, el programa fue sometido a una última modificación mayor, que consistió en reemplazar la utilización de la función qsort() por una implementación de \emph{radix sort} adaptada al propósito. Esta última modificación estuvo lejos de producir los resultados deseados pese al entusiasmo. En una búsqueda \emph{al vuelo} de alguna función de ordenación más eficiente que qsort() me encontré con radix sort, que parecía podría funcionar y los cálculos parecían indicar que por los 32 bits que se utilizan para representar a los vértices y su información, radix sort andaría significativamente más rápido.
+Para intentar mejorar este último punto, se realizó una última modificación mayor, que consistió en reemplazar la utilización de la función qsort() por una implementación de \emph{radix sort} adaptada al propósito. Esta última modificación estuvo lejos de producir los resultados deseados pese al entusiasmo. En una búsqueda \emph{al vuelo} de alguna función de ordenación más eficiente que qsort() me encontré con radix sort, que parecía podría funcionar y los cálculos parecían indicar que por los 10 dígitos que se utilizan para representar a los vértices y su información, radix sort andaría significativamente más rápido.
 
 Esto no fue así, lo que me lleva a considerar que hice mal los cálculos o que no implementé bien la función de radix sort. Ninguno de estos supuestos pude comprobar, y llegué al límite del plazo para la entrega del proyecto, por lo que averiguarlo queda pendiente.
 
@@ -897,6 +899,14 @@ Esto no fue así, lo que me lleva a considerar que hice mal los cálculos o que 
 \bibitem{4}
  	http://web.math.princeton.edu/math\_alive/5/Notes2.pdf
 \bibitem{5}
+    http://www.famaf.unc.edu.ar/~penazzi/DisII2016/GrafosDeEjemplos.html
+\bibitem{6}
+    http://www.famaf.unc.edu.ar/~penazzi/DisII2016/Corrdeotrapagina/GrafosOtros.html
+\bibitem{7}
+    https://gist.github.com/EmilHernvall/953968
+\bibitem{8}
+    http://www.thelearningpoint.net/computer-science/data-structures-queues--with-c-program-source-code
+\bibitem{9}
  	http://stackoverflow.com/questions/11899616/murmurhash-what-is-it
 
 \end{thebibliography}
