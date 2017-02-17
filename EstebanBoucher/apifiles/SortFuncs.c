@@ -171,8 +171,8 @@ void Revierte(NimheP G) {
         /* Cast the two input values to pointers to u32 */
         u32 *fst = (u32*)elem1;
         u32 *snd = (u32*)elem2;
-        if(G->color_array[*fst] > G->color_array[*snd]) return 1;
-        if(G->color_array[*fst] < G->color_array[*snd]) return -1;
+        if(G->color_array[*fst] < G->color_array[*snd]) return 1;
+        if(G->color_array[*fst] > G->color_array[*snd]) return -1;
         return 0;
     }
 
