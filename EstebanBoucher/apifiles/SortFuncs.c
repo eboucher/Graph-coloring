@@ -51,8 +51,8 @@ void OrdenWelshPowell(NimheP G) {
         /* Cast the two input values to pointers to u32 */
         u32 *fst = (u32*)elem1;
         u32 *snd = (u32*)elem2;
-        if(G->degree_array[*fst] > G->degree_array[*snd]) return 1;
-        if(G->degree_array[*fst] < G->degree_array[*snd]) return -1;
+        if(G->degree_array[*fst] < G->degree_array[*snd]) return 1;
+        if(G->degree_array[*fst] > G->degree_array[*snd]) return -1;
         return 0;
     }
     /* Order vertices according to the Welsh-Powell comparison function */
