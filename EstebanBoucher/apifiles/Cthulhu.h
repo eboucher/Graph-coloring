@@ -12,7 +12,7 @@
 #include "ColorFuncs.h"
 #include "DataStructs.h"
 #include "VertexGraphData.h"
-    
+
 /* GRAPH CONSTRUCTION AND DESTRUCTION FUNCTIONS */
 
 NimheP NuevoNimhe(void);

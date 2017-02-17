@@ -36,8 +36,8 @@ NimheP NuevoNimhe(void) {
     /* Allocate memory for G */
     G = calloc(1, sizeof(struct _NimheSt_t));
 
-    /* Next line must be indicate the number of vertices and edges of 
-       the new graph */
+    /* Next line must indicate the number of vertices and edges of the new
+       graph */
     if(!strncmp(line_ptr, "p ", 2)) {
 
         /* Number of vertices and edges are expected to follow */
