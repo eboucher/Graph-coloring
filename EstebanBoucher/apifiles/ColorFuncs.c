@@ -86,7 +86,7 @@ u32 Greedy(NimheP G) {
     /* Initialize G->vertices_with_color to 0 */
     memset(G->vertices_with_color, 0, (G->no_vertices + 1) * sizeof(u32));
     /* Initialize color_array to 0, as all vertices are non-colored */
-    memset(G->color_array, 0, (G->no_vertices) * sizeof(u32));
+    memset(G->color_array, 0, (G->no_vertices) * sizeof(u32)); // ?
 
     /* Assign color 1 to the first vertex in the current order */
     G->color_array[G->order[0]] = 1;
@@ -136,8 +136,8 @@ u32 Greedy(NimheP G) {
 
         /* Reset the values back to false for the next iteration */
         for(j = 0; j < no_neighbors; j++) {
-            u32 neighbor_color = G->color_array[
-                                 G->neighbors_array[G->order[i]].data[j]];
+            neighbor_color = G->color_array[
+                             G->neighbors_array[G->order[i]].data[j]];
             if(neighbor_color != 0)
                 G->used[neighbor_color] = false;
         }

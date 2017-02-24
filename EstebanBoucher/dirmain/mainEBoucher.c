@@ -164,6 +164,9 @@ int main() {
             coloring = Greedy(graph);
             /* Increment ChicoGrande counter */
             a++;
+
+            printf("%d-th iteration. Coloring obtained with ChicoGrande: %u\n", i, coloring);
+
         } else if ((random_option > 7) && (random_option <= 12)) {
             /* Revierte with 31,25% probability */
             Revierte(graph);
@@ -171,6 +174,9 @@ int main() {
             coloring = Greedy(graph);
             /* Increment Revierte counter */
             c++;
+
+            printf("%d-th iteration. Coloring obtained with Revierte: %u\n", i, coloring);
+
         } else if ((random_option > 12) && (random_option <= 14)) {
             /* GrandeChico with 12,5% probability */
             GrandeChico(graph);
@@ -178,6 +184,9 @@ int main() {
             coloring = Greedy(graph);
             /* Increment GrandeChico counter */
             b++;
+
+            printf("%d-th iteration. Coloring obtained with GrandeChico: %u\n", i, coloring);
+
         } else {
             /* ReordenAleatorioRestringido with 6,25% probability */
             ReordenAleatorioRestringido(graph);
@@ -185,20 +194,35 @@ int main() {
             coloring = Greedy(graph);
             /* Increment ReordenAleatorioRestringido counter */
             d++;
+
+            printf("%d-th iteration. Coloring obtained with RAR: %u\n", i, coloring);
+
         }
         /* Update best_coloring obtained so far */
-        best_coloring = min(best_coloring, CantidadDeColores(graph));
+        // best_coloring = min(best_coloring, coloring);
+        if(best_coloring < coloring) {
+            printf("Big error!\n");
+            return 1;
+        }
+        best_coloring = coloring;
+
     }
     /* Sort vertices in graph using Revierte */
     Revierte(graph);
     /* And color the graph one last time */
     coloring = Greedy(graph);
     /* Update best_coloring */
-    best_coloring = min(best_coloring, CantidadDeColores(graph));
+    //best_coloring = min(best_coloring, CantidadDeColores(graph));
+
+
+        if(best_coloring < coloring) {
+            printf("Big error!\n");
+            return 1;
+        }
 
     /* Print coloring obtained with Greedy iterating 1001 times */
     printf("Mejor coloreo con Greedy iterado 1001 veces: %u colores\n",
-           best_coloring);
+           coloring);
     /* Print the number of times the graph was colored using each of
        the above sorting fuctions */
     printf("(%u CG,%u GC, %u R, %u RAR)\n", a, b, c, d);
