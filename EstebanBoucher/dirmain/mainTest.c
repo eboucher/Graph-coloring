@@ -82,13 +82,33 @@ int main() {
     printf("Degree array: ");
     for(u32 i=0; i<no_vertices; i++)
         printf(", %u",graph->degree_array[i]);
+    printf("\n");
+    printf("Array of colors: ");
+    for(u32 i=0; i<no_vertices; i++)
+        printf(", %u",graph->color_array[i]);
 
+
+
+    printf("\nWhat's the order for the vertices in graph?\n");
+    printf("Order array: ");
+    for(u32 i=0; i<no_vertices; i++)
+        printf(", %u",graph->name_array[graph->order[i]]);
+    printf("\nNow let's call Revierte function\n");
+    Revierte(graph);
+    coloring = Greedy(graph);
+    printf("What's the new order for the vertices in graph?\n");
+    printf("Order array: ");
+    for(u32 i=0; i<no_vertices; i++)
+        printf(", %u",graph->name_array[graph->order[i]]);
+    printf("\n");
+    printf("-----------------------------------\n\n");
     /* Order graph vertices with Welsh Powell order */
     OrdenWelshPowell(graph);
     printf("\n");
     printf("Current order: ");
     for(u32 i=0; i<no_vertices; i++)
         printf(", %u",graph->order[i]);
+    WP_coloring = Greedy(graph);
     printf("\n");
     printf("Name array in Welsh-Powell order: ");
     for(u32 i=0; i<no_vertices; i++)
