@@ -157,6 +157,7 @@ int main() {
     for (int i=1; i<=1000; i++) {
         /* Pick a random option */
         random_option = (rand() % 16);
+        OrdenNatural(graph);
         if (random_option <= 7) {
             /* ChicoGrande with 50% probability */
             ChicoGrande(graph);

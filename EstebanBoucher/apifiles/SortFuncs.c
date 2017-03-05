@@ -78,7 +78,7 @@ void ReordenAleatorioRestringido(NimheP G) {
     shuffle(specific_order, G->coloring, seed);
 
     for(u32 i = 0; i < G->no_vertices; i++)
-        G->RAR_order_array[i] = specific_order[G->color_array[i]];
+        G->RAR_order_array[i] = specific_order[G->color_array[i]-1];
 
     /* Declare a local comparison function */
     int CompRAR(const void *elem1, const void *elem2) {
