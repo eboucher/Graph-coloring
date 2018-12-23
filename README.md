@@ -6,9 +6,7 @@
 
 ## Proyecto: Primera Parte
 
-## Esteban L. Boucher
-
-### eboucher7@gmail.com
+## Esteban Boucher
 
 ### Septiembre 2016
 
