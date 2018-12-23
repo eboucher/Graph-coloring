@@ -1,5 +1,6 @@
+### Para compilar el proyecto:
+
 ```
-Para compilar el proyecto:
 gcc -Wall -Wextra -O3 -std=c99 -Iapifiles dirmain/mainEBoucher.c apifiles/*.c
 -o EB
 La ejecucion se puede hacer de las dos siguientes maneras:
@@ -11,7 +12,7 @@ La ejecucion se puede hacer de las dos siguientes maneras:
 e ingresando el grafo manualmente.
 
 
-### 4.2 Descripcion de las pruebas
+### Descripción de las pruebas
 
 ```
 Las pruebas consisten en el monitoreo de la ejecucion del programa cuando se corre con un input
@@ -26,7 +27,7 @@ prime el mejor coloreo de esas corridas. Tambien corre el algoritmo2-coloral pri
 si el grafo dado es 2-coloreable, y luego de las 11 primeras corridas, verifica si es 3-coloreable antes
 de correrGreedy1001 veces.
 ```
-### 4.3 Mecanografiado de las pruebas
+### Mecanografiado de las pruebas
 
 ```
 Existe una gran variedad de herramientas para probar el tiempo y memoria consumidos por el
