@@ -36,16 +36,14 @@ de correr Greedy 1001 veces.
 
 
 Existe una gran variedad de herramientas para probar el tiempo y memoria consumidos por el programa. Menciono unicamente dos de ellas:
-```
-- Comando htop
 
-```
+## - Comando htop
+
 Utilizar htop mientras se ejecuta el programa permite visualizar tanto la RAM (columna
 RES) que está siendo usada por el proceso, y el tiempo (columna TIME+).
-```
-- Comandotime
 
-```
+## - Comando time
+
 El comando time corre el programa y da un resumen de la utilización de recursos.
 Se puede usar este comando como sigue:
 
